@@ -1071,6 +1071,11 @@ html.js .anim.is-in { opacity: 1; transform: none; }
   .cta-box { padding: 38px 22px 34px; border-width: 3px; }
   .cta-buttons { flex-direction: column; }
   .cta-buttons .btn { width: 100%; min-width: 0; }
+  /* Third of the three button groups. The hero and the CTA box already went
+     full width here; this one was simply missed, so View All Services sat
+     narrower than Request a Quote directly above it. All three share the
+     .container gutter, so 100% lands them on the same edges. */
+  .center-cta .btn { width: 100%; }
   .topbar p { font-size: 11px; letter-spacing: 0.09em; }
   .audience-item { gap: 16px; }
   .audience-icon { flex-basis: 54px; width: 54px; height: 54px; }
