@@ -649,8 +649,20 @@ a:focus-visible, button:focus-visible {
    inherits into descendants and cannot be switched off on a child, so
    underlining the anchor would drag the arrow into it too. */
 .card-link {
-  margin-top: auto;      /* pins to the bottom of the card body */
-  padding-top: 24px;
+  /* Follows the copy rather than being pinned to the card floor. It used to
+     carry margin-top:auto, which bottom-aligned it across the row — but the
+     cards are equal height with copy of unequal length, so on the shorter
+     three that opened a 47px gap under the paragraph against 24px on the
+     tallest, and the link read as marooned at the bottom. Tracking the copy
+     costs the cross-card alignment and buys a gap that is the same on every
+     card.
+
+     17px rather than a round 26 for the same optical reason as the bottom:
+     the paragraph's 1.55 line-height leaves ~4px of half-leading under its
+     last baseline, and the link's cap top sits ~3px below its own box top.
+     17 + 4 + 3 puts ~26.5px of visible space between the copy and the caps,
+     matching the 27px gutters. */
+  padding-top: 17px;
   /* flex-start, not stretch — stretch would run the anchor the full width of
      the card and put the underline under the empty space past the arrow. The
      card body's 26px padding does the aligning with the eyebrow and copy. */
