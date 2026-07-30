@@ -1299,11 +1299,39 @@ html.js .anim.is-in { opacity: 1; transform: none; }
           mask-composite: intersect;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .dot-spotlight { display: none; }
-}
+/* Touch devices have no pointer to track, so the rollover layer never fires and
+   the lattice is stuck at its faint always-on value — which is close to
+   invisible on a phone in daylight. Lift the base and give it a slow breath so
+   the texture still reads as deliberate rather than as compression noise.
 
-/* Touch devices have no hover to track; the static lattice still shows. */
+   Gated on (hover: none) rather than a width breakpoint on purpose: a narrow
+   desktop window still has a pointer and should keep the real spotlight, while
+   a 1024px tablet has no pointer and needs this. Width gets both wrong. */
 @media (hover: none) {
   .dot-spotlight { display: none; }
+
+  .dot-grid {
+    --dot-color: rgba(255, 255, 255, 0.22);
+    animation: se-dot-breathe 6s ease-in-out infinite;
+  }
+
+  /* The hero and process lattices are never really on screen together, but the
+     offset stops them beating in lockstep if a short viewport ever shows both. */
+  .process > .dot-grid { animation-delay: -2.4s; }
+}
+
+/* Opacity rather than --dot-color: a custom property can only be animated
+   behind @property registration, which Safari only picked up recently, and
+   compositing opacity costs nothing. The floor is set so even the dimmest
+   point of the cycle (0.22 x 0.72 = 0.158) still sits above the 0.12 the
+   lattice used to hold flat. */
+@keyframes se-dot-breathe {
+  0%, 100% { opacity: 0.72; }
+  50%      { opacity: 1; }
+}
+
+/* Last, so it wins over the touch block above on a device that is both. */
+@media (prefers-reduced-motion: reduce) {
+  .dot-spotlight { display: none; }
+  .dot-grid { animation: none; }
 }
