@@ -1,0 +1,1309 @@
+/* ==========================================================================
+   SCHUCK ELECTRIC — 2026 redesign
+   Barlow Condensed (display) + Work Sans (body)
+   ========================================================================== */
+
+/* The fonts are pulled in here as well as via <link> in the head block,
+   because page builders often strip <link> tags out of a field meant for
+   scripts and an @import inside the stylesheet survives that.
+
+   Deliberately two separate requests with NO "&" in either URL. Combining
+   both families into one query needs an ampersand, and if anything in the
+   paste pipeline HTML-escapes it to &amp; the URL breaks after the first
+   family — which loads Barlow Condensed and silently drops Work Sans.
+   That is exactly the failure this replaced. display=swap is omitted for
+   the same reason; the default behaviour is fine.
+   Must stay the first rules in the file; @import is ignored after any other. */
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800');
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600');
+
+:root {
+  --se-navy:        #0B0722;
+  --se-navy-2:      #0E1330;
+  --se-ink:         #08070F;
+  --se-ink-2:       #121218;
+
+  --se-blue:        #2D7ABF;
+  --se-blue-light:  #4E97D6;
+  --se-blue-bright: #00AEEF;
+  --se-blue-dark:   #1F5A8F;
+
+  --se-white:       #FFFFFF;
+  --se-gray:        #F2F3F5;
+  --se-gray-line:   #E3E4E9;
+  --se-body:        #4B4B57;
+  --se-body-dark:   #C7C9D1;
+
+  --se-font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --se-font-body:    "Work Sans", system-ui, -apple-system, sans-serif;
+
+  --se-container: 1240px;
+  --se-radius: 0px;   /* v2: square edges throughout */
+  --se-header-h: 76px;
+  --se-topbar-h: 34px;
+
+  --se-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: var(--se-font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--se-body);
+  background: var(--se-white);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+body.is-locked { overflow: hidden; }
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; margin: 0; padding: 0; }
+
+h1, h2, h3, h4 {
+  font-family: var(--se-font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1.03;
+  letter-spacing: 0.005em;
+  color: var(--se-navy);
+  margin: 0 0 0.45em;
+}
+h1 { font-size: clamp(42px, 5.4vw, 76px); font-weight: 800; letter-spacing: -0.005em; }
+h2 { font-size: clamp(30px, 3.4vw, 46px); }
+h3 { font-size: clamp(21px, 1.9vw, 27px); }
+h4 { font-size: clamp(19px, 1.5vw, 23px); }
+
+p { margin: 0 0 1.1em; }
+p:last-child { margin-bottom: 0; }
+
+.lede { font-size: 17.5px; color: var(--se-body); }
+.on-dark, .on-dark h1, .on-dark h2, .on-dark h3, .on-dark h4 { color: var(--se-white); }
+.on-dark p, .on-dark .lede { color: var(--se-body-dark); }
+
+.container {
+  width: 100%;
+  max-width: var(--se-container);
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--se-blue-bright);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ---------- Eyebrow ---------- */
+.eyebrow {
+  font-family: var(--se-font-display);
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--se-blue);
+  margin: 0 0 15px;
+}
+.on-dark .eyebrow { color: var(--se-blue-light); }
+
+/* Hero eyebrow: uppercase, tracked out, with an underline rule */
+.eyebrow--rule {
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--se-white);
+  padding-bottom: 7px;
+  border-bottom: 2px solid var(--se-blue);
+  margin-bottom: 14px;
+}
+
+/* ==========================================================================
+   BUTTONS — matches "Button Style.png"
+   Rollover states use a soft blue outer glow.
+   ========================================================================== */
+.btn {
+  --se-btn-glow: rgba(0, 174, 239, 0.55);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  font-family: var(--se-font-display);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1;
+  --se-btn-px: 28px;
+  padding: 15px var(--se-btn-px);
+  border-radius: var(--se-radius);
+  border: 1px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  background: transparent;
+  transition: background 0.28s var(--se-ease), color 0.28s var(--se-ease),
+              border-color 0.28s var(--se-ease), box-shadow 0.32s var(--se-ease),
+              transform 0.28s var(--se-ease);
+}
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0); transition-duration: 0.08s; }
+.btn .ico { width: 16px; height: 16px; fill: currentColor; flex-shrink: 0; }
+.btn-arrow { transition: transform 0.28s var(--se-ease); display: inline-block; }
+.btn:hover .btn-arrow { transform: translateX(5px); }
+
+.btn--primary {
+  background: var(--se-blue);
+  border-color: var(--se-white);
+  color: var(--se-white);
+  box-shadow: 0 6px 20px rgba(45,122,191,0.28);
+}
+.btn--primary:hover {
+  background: var(--se-blue-bright);
+  border-color: var(--se-white);
+  box-shadow: 0 0 0 4px rgba(0,174,239,0.18), 0 8px 30px var(--se-btn-glow);
+}
+
+.btn--bright {
+  background: var(--se-blue-bright);
+  border-color: var(--se-white);
+  color: var(--se-white);
+  box-shadow: 0 0 0 4px rgba(0,174,239,0.14), 0 6px 26px rgba(0,174,239,0.35);
+}
+.btn--bright:hover {
+  background: var(--se-blue);
+  border-color: var(--se-white);
+  box-shadow: 0 0 0 4px rgba(45,122,191,0.2), 0 10px 34px rgba(45,122,191,0.5);
+}
+
+/* Outlined on dark / photo backgrounds.
+   At rest this is a clean 2px white rule and nothing else — no fill, no blur,
+   no shadow. Every effect is held back for the rollover. */
+.btn--ghost {
+  border-color: var(--se-white);
+  color: var(--se-white);
+  background: transparent;
+}
+.btn--ghost:hover {
+  border-color: var(--se-blue-bright);
+  color: var(--se-white);
+  background: rgba(0,174,239,0.14);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 0 0 3px rgba(0,174,239,0.14), 0 8px 18px rgba(0,174,239,0.32);
+}
+.btn--ghost .ico { fill: var(--se-blue-light); transition: fill 0.28s var(--se-ease); }
+.btn--ghost:hover .ico { fill: var(--se-blue-bright); }
+
+.btn--dark {
+  background: transparent;
+  border-color: var(--se-white);
+  color: var(--se-white);
+}
+.btn--dark:hover {
+  border-color: var(--se-white);
+  box-shadow: 0 0 0 4px rgba(0,174,239,0.16), 0 8px 30px rgba(0,174,239,0.4);
+}
+
+.btn--outline-navy {
+  border-color: var(--se-navy);
+  color: var(--se-navy);
+  background: var(--se-white);
+}
+.btn--outline-navy:hover {
+  border-color: var(--se-blue);
+  color: var(--se-blue);
+  box-shadow: 0 0 0 4px rgba(45,122,191,0.12), 0 8px 26px rgba(45,122,191,0.25);
+}
+
+.btn--sm { --se-btn-px: 16px; padding: 11px var(--se-btn-px); font-size: 14px; letter-spacing: 0.05em; }
+.btn--block { width: 100%; }
+
+/* Optical padding fix for buttons with a leading icon. The handset glyph is
+   drawn starting 3 units into its 0-24 viewBox, so at a 16px icon size it
+   carries 2px of built-in empty space on its left. Measured edge-to-edge the
+   padding is already even; it just doesn't look it. Trimming 2px off the
+   left brings the *visible* gaps into line. Text-only buttons are untouched. */
+.btn:has(.ico) { padding-left: calc(var(--se-btn-px) - 2px); }
+
+/* ==========================================================================
+   TOP BAR + HEADER
+   The topbar sits in normal flow and scrolls away; the header is sticky
+   and locks to the top, gaining blur + a heavier background once stuck.
+   ========================================================================== */
+.topbar {
+  height: var(--se-topbar-h);
+  display: flex;
+  align-items: center;
+  background: linear-gradient(90deg, #0A0620 0%, #16418C 50%, #0A0620 100%);
+  color: var(--se-white);
+  position: relative;
+  z-index: 2;
+}
+.topbar p {
+  margin: 0;
+  text-align: center;
+  width: 100%;
+  font-family: var(--se-font-display);
+  font-weight: 600;
+  font-size: 12.5px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+.topbar-div { opacity: 0.55; margin: 0 6px; }
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 500;
+  background: rgba(10, 8, 26, 0.35);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  transition: background 0.35s var(--se-ease), backdrop-filter 0.35s var(--se-ease),
+              border-color 0.35s var(--se-ease), box-shadow 0.35s var(--se-ease);
+}
+.site-header.is-stuck {
+  background: rgba(10, 8, 26, 0.72);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border-bottom-color: rgba(255,255,255,0.1);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.28);
+}
+.site-header .container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  height: var(--se-header-h);
+}
+.brand { display: flex; align-items: center; flex-shrink: 0; }
+.brand img { height: 36px; width: auto; }
+
+/* Pinned to the true centre of the container so the links line up with the
+   centred announcement-bar text above them. Centring with auto margins
+   instead would centre them in the space left over between the logo and the
+   buttons, which are different widths — so they'd sit off-centre. */
+.nav-primary {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.nav-links { display: flex; gap: 38px; }
+.nav-links a {
+  position: relative;
+  display: inline-block;
+  font-family: var(--se-font-display);
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--se-white);
+  padding: 8px 0;
+  transition: color 0.25s var(--se-ease);
+}
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0;
+  height: 2px;
+  width: 100%;
+  background: var(--se-blue-bright);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.32s var(--se-ease);
+}
+.nav-links a:hover { color: var(--se-blue-bright); }
+.nav-links a:hover::after,
+.nav-links a[aria-current="page"]::after { transform: scaleX(1); }
+.nav-links a[aria-current="page"] { color: var(--se-white); }
+.nav-links a[aria-current="page"]::after { background: var(--se-blue); }
+
+.nav-actions { display: flex; align-items: center; gap: 20px; flex-shrink: 0; }
+
+/* Header phone: a plain link, not a button, and deliberately quieter than
+   the nav items so it stops competing with them. Same family and tracking as
+   .nav-links, one step smaller, and dimmed rather than bolded.
+
+   Kept solid white at the same size as before — the earlier dimming to 72%
+   is reverted. 600 is the lightest Barlow Condensed face we self-host, so a
+   genuinely lighter weight would need BarlowCondensed-Regular or -Light
+   uploaded to Media Library. */
+.nav-call {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--se-font-display);
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--se-white);
+  white-space: nowrap;
+  transition: color 0.25s var(--se-ease);
+}
+.nav-call .ico {
+  width: 15px; height: 15px;
+  fill: var(--se-blue-light);
+  flex-shrink: 0;
+  transition: fill 0.25s var(--se-ease);
+}
+.nav-call:hover { color: var(--se-blue-bright); }
+.nav-call:hover .ico { fill: var(--se-blue-bright); }
+
+
+/* Hamburger */
+.nav-toggle {
+  display: none;
+  width: 42px; height: 42px;
+  padding: 10px 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-left: auto;
+}
+.nav-toggle span {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: var(--se-white);
+  border-radius: 2px;
+  transition: transform 0.3s var(--se-ease), opacity 0.2s var(--se-ease);
+}
+
+/* ---------- Mobile panel ----------
+   v2: full-bleed and translucent rather than a solid drawer — the hero photo
+   stays visible, blurred and darkened, behind the menu. Only the logo bar at
+   the top is solid. */
+.mobile-panel {
+  position: fixed;
+  inset: 0;
+  background: rgba(9, 8, 24, 0.62);
+  backdrop-filter: blur(22px) saturate(120%);
+  -webkit-backdrop-filter: blur(22px) saturate(120%);
+  z-index: 700;
+  display: flex;
+  flex-direction: column;
+  padding: 0 22px 32px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: opacity 0.34s var(--se-ease), transform 0.34s var(--se-ease),
+              visibility 0.34s var(--se-ease);
+  overflow-y: auto;
+}
+.mobile-panel.is-open { opacity: 1; visibility: visible; transform: none; }
+
+/* Full-bleed solid bar: the negative margins cancel the panel's padding. */
+.mobile-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 84px;
+  flex-shrink: 0;
+  margin: 0 -22px 26px;
+  padding: 0 22px;
+  background: #14141F;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.mobile-panel-head .brand img { height: 40px; }
+.mobile-close {
+  width: 44px; height: 44px;
+  border: none;
+  background: transparent;
+  color: var(--se-white);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: color 0.25s var(--se-ease), transform 0.25s var(--se-ease);
+}
+.mobile-close svg { width: 26px; height: 26px; fill: currentColor; }
+.mobile-close:hover { color: var(--se-blue-bright); transform: rotate(90deg); }
+
+/* Centred, with the active underline sized to the word rather than the row.
+   inline-block is what does that — a display:block anchor stretches the full
+   panel width and its border stretches with it. */
+.mobile-links { text-align: center; margin-top: 96px; }
+.mobile-links li { text-align: center; }
+/* The rule has to sit close to the word to read as "this is the page you're
+   on". The old 19px bottom padding put it far enough below to look like a
+   divider between rows instead. Tight line-height plus 6px of padding keeps
+   it attached to the text; the row rhythm moves to a margin between items so
+   the spacing between links is unchanged. */
+.mobile-links li + li { margin-top: 36px; }
+.mobile-links a {
+  display: inline-block;
+  padding: 0 2px 6px;
+  line-height: 1.1;
+  font-family: var(--se-font-display);
+  font-weight: 700;
+  font-size: 24px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--se-white);
+  border-bottom: 2px solid transparent;
+  transition: color 0.25s var(--se-ease), border-color 0.25s var(--se-ease);
+}
+/* No horizontal nudge on hover — it reads as misalignment once centred. */
+.mobile-links a:hover { color: var(--se-blue-bright); }
+.mobile-links a[aria-current="page"] {
+  color: var(--se-blue-light);
+  border-bottom-color: var(--se-blue);
+}
+
+/* Centred below the links with a clear gap, and deliberately NOT pushed to
+   the bottom of the panel where it would collide with a chat widget. Stacked
+   at every width — tablet included. */
+.mobile-actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 22px;
+  margin: 72px auto 0;
+  width: 100%;
+  max-width: 290px;
+}
+
+
+.mobile-scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(5,4,14,0.5);
+  z-index: 690;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s var(--se-ease);
+}
+.mobile-scrim.is-open { opacity: 1; pointer-events: auto; }
+
+/* ==========================================================================
+   HERO
+   ========================================================================== */
+.hero {
+  position: relative;
+  isolation: isolate;
+  margin-top: calc(-1 * var(--se-header-h));
+  min-height: min(88vh, 820px);
+  display: flex;
+  align-items: center;
+  background: var(--se-navy);
+  color: var(--se-white);
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: -8% 0 -8% 0;
+  z-index: 0;
+  will-change: transform;
+}
+.hero-bg img { width: 100%; height: 100%; object-fit: cover; }
+/* Neutral black, multiplied. The previous rgba(4,3,12,...) carried a blue
+   channel four times its red, which read as a blue cast over the photo.
+   Pure black with mix-blend-mode: multiply darkens without tinting.
+   .hero sets isolation: isolate, so the blend is confined to the hero and
+   cannot reach the sections behind it. The copy sits at z-index 2, above the
+   scrim, so it is not part of the blend. */
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  mix-blend-mode: multiply;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,0.86) 0%, rgba(0,0,0,0.62) 46%, rgba(0,0,0,0.28) 100%),
+    linear-gradient(180deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.1) 34%, rgba(0,0,0,0.55) 100%);
+}
+.hero .container {
+  position: relative;
+  z-index: 2;
+  padding-top: calc(var(--se-header-h) + 72px);
+  padding-bottom: 88px;
+}
+.hero-content { max-width: 760px; }
+.hero h1 { color: var(--se-white); margin-bottom: 24px; }
+.hero .lede {
+  color: #E2E5EE;
+  font-size: 18.5px;
+  max-width: 610px;
+  margin-bottom: 34px;
+}
+.hero-cta { display: flex; flex-wrap: wrap; gap: 14px; }
+
+/* ==========================================================================
+   SECTION SHELL
+   ========================================================================== */
+.section { padding: 96px 0; position: relative; }
+.on-gray { background: var(--se-gray); }
+.on-dark { background: var(--se-ink); }
+
+.section-head { max-width: 680px; margin-bottom: 46px; }
+.section-head.center { margin-left: auto; margin-right: auto; text-align: center; }
+.section-head .lede { color: #5A5A66; }
+.on-dark .section-head .lede { color: var(--se-body-dark); }
+
+.center-cta { text-align: center; margin-top: 42px; }
+
+/* ==========================================================================
+   SERVICES CAROUSEL
+   ========================================================================== */
+.section--services { padding-bottom: 88px; overflow: hidden; }
+.section--services .section-head { margin-bottom: 40px; }
+
+.carousel {
+  position: relative;
+  --se-card-w: 380px;
+  --se-card-gap: 28px;
+}
+.carousel-viewport {
+  overflow: hidden;
+  padding: 26px 0 34px;
+  /* Fade the peeking cards on both edges */
+  -webkit-mask-image: linear-gradient(90deg, rgba(0,0,0,0.05) 0, #000 16%, #000 84%, rgba(0,0,0,0.05) 100%);
+          mask-image: linear-gradient(90deg, rgba(0,0,0,0.05) 0, #000 16%, #000 84%, rgba(0,0,0,0.05) 100%);
+}
+.carousel-track {
+  display: flex;
+  gap: var(--se-card-gap);
+  will-change: transform;
+  transition: transform 0.62s var(--se-ease);
+  cursor: grab;
+}
+.carousel-track.is-dragging { transition: none; cursor: grabbing; }
+
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 4;
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--se-gray-line);
+  background: var(--se-white);
+  color: var(--se-navy);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 6px 14px rgba(11,7,34,0.14);
+  transition: background 0.25s var(--se-ease), color 0.25s var(--se-ease),
+              box-shadow 0.25s var(--se-ease), opacity 0.25s var(--se-ease);
+}
+.carousel-arrow svg { width: 20px; height: 20px; fill: currentColor; }
+.carousel-arrow:hover { background: var(--se-blue); color: var(--se-white); border-color: var(--se-blue); box-shadow: 0 8px 18px rgba(45,122,191,0.34); }
+.carousel-arrow[disabled] { opacity: 0.3; pointer-events: none; }
+.carousel-arrow--prev { left: 20px; }
+.carousel-arrow--next { right: 20px; }
+
+.card {
+  flex: 0 0 var(--se-card-w);
+  width: var(--se-card-w);
+  background: var(--se-white);
+  border: 1px solid var(--se-gray-line);
+  border-radius: var(--se-radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.35s var(--se-ease), box-shadow 0.35s var(--se-ease), border-color 0.35s var(--se-ease);
+}
+.card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(45,122,191,0.4);
+  box-shadow: 0 8px 18px rgba(11,7,34,0.14);
+}
+.card-media { aspect-ratio: 16/9; overflow: hidden; background: #DDD; }
+.card-media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--se-ease); }
+.card:hover .card-media img { transform: scale(1.06); }
+.card-body { padding: 24px 26px 28px; flex: 1; }
+.card-tag {
+  font-family: var(--se-font-display);
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  color: var(--se-blue);
+  margin-bottom: 4px;
+}
+.card-body h3 { margin-bottom: 12px; text-transform: none; letter-spacing: 0; }
+/* :not(.card-tag) matters — the eyebrow is a <p> in here too, and
+   `.card-body p` (0,1,1) would otherwise beat `.card-tag` (0,1,0)
+   and drag it back to body size. */
+.card-body p:not(.card-tag) { font-size: 15px; color: #5A5A66; line-height: 1.55; margin: 0; }
+
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 9px;
+  margin-top: 4px;
+}
+.carousel-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  background: #C6C9D2;
+  cursor: pointer;
+  transition: background 0.3s var(--se-ease), width 0.3s var(--se-ease);
+}
+.carousel-dot.is-active { background: var(--se-blue); width: 26px; border-radius: 5px; }
+
+/* ==========================================================================
+   ABOUT
+   ========================================================================== */
+/* Two balanced text columns — v2 drops the large photo that used to fill the
+   right half and gives that space to the audience list instead. */
+.about { padding: 92px 0 96px; }
+.about-inner {
+  display: grid;
+  grid-template-columns: 1fr 1.12fr;
+  gap: 72px;
+  align-items: start;
+}
+/* :not(.eyebrow) for the same reason as .card-body p — the eyebrow is a
+   <p> in here too, and `.about-copy > p` (0,1,1) would otherwise beat
+   `.eyebrow` (0,1,0) and hold it at body size. */
+.about-copy > p:not(.eyebrow) { color: var(--se-body); font-size: 16.5px; max-width: 560px; }
+.about-copy > p:not(.eyebrow):last-child { margin-bottom: 0; }
+.about-sub {
+  color: var(--se-blue);
+  text-transform: none;
+  font-size: clamp(20px, 1.8vw, 25px);
+  letter-spacing: 0;
+  margin: 0 0 26px;
+}
+
+.audience-list { display: grid; gap: 0; }
+.audience-item { padding: 22px 0; }
+.audience-item + .audience-item { border-top: 1px solid var(--se-blue); }
+.audience-item:first-child { padding-top: 0; }
+.audience-item:last-child { padding-bottom: 0; }
+.audience-item { display: flex; gap: 20px; align-items: flex-start; }
+/* No box, no hover — the animated icon carries itself. A 1px blue rule
+   between items does the separating instead. */
+.audience-icon {
+  flex: 0 0 62px;
+  width: 62px; height: 62px;
+  background: transparent;
+  border: none;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.audience-icon img { width: 46px; height: 46px; object-fit: contain; }
+.audience-item h4 {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 19px;
+  margin-bottom: 6px;
+}
+.audience-item p { font-size: 15px; color: #5A5A66; margin: 0; line-height: 1.5; }
+
+/* ==========================================================================
+   PROCESS + CTA BOX
+   ========================================================================== */
+.process {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 104px 0 110px;
+  background: #05050C;
+}
+.process-glow {
+  position: absolute;
+  top: -30%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(1500px, 130vw);
+  height: 900px;
+  z-index: 0;
+  background: radial-gradient(ellipse at 50% 40%, rgba(31,90,143,0.55) 0%, rgba(20,52,102,0.28) 38%, rgba(5,5,12,0) 68%);
+  pointer-events: none;
+}
+.process .container { position: relative; z-index: 1; }
+.process .section-head { margin-bottom: 60px; }
+
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
+.step { padding: 0 44px; position: relative; }
+.step:first-child { padding-left: 0; }
+.step:last-child { padding-right: 0; }
+.step + .step::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 6px; bottom: 6px;
+  width: 1px;
+  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 22%, rgba(255,255,255,0.3) 78%, rgba(255,255,255,0) 100%);
+}
+.step-num {
+  font-family: var(--se-font-display);
+  font-weight: 800;
+  font-size: clamp(56px, 5.6vw, 82px);
+  line-height: 0.9;
+  color: var(--se-blue);
+  margin-bottom: 22px;
+  letter-spacing: -0.01em;
+}
+.step h3 { text-transform: none; letter-spacing: 0; margin-bottom: 12px; }
+.step p { font-size: 15.5px; color: #B9BCC9; line-height: 1.6; margin: 0; }
+
+/* v2: a photo sits behind the CTA box, dimmed hard so the type stays
+   readable. The image is a real <img> in its own layer rather than a CSS
+   background so it can be lazy-loaded and object-fit cropped. */
+.cta-box {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin-top: 78px;
+  border: 4px solid var(--se-blue);
+  border-radius: 0;
+  padding: 56px 40px 48px;
+  text-align: center;
+  background: #0A0A18;
+  box-shadow: 0 0 60px rgba(45,122,191,0.16) inset;
+}
+.cta-bg { position: absolute; inset: 0; z-index: 0; }
+.cta-bg img { width: 100%; height: 100%; object-fit: cover; }
+.cta-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(8,9,20,0.82) 0%, rgba(8,9,20,0.72) 45%, rgba(8,9,20,0.86) 100%);
+}
+.cta-content { position: relative; z-index: 1; }
+.cta-box h2 { margin-bottom: 16px; max-width: 900px; margin-left: auto; margin-right: auto; }
+.cta-box .lede { max-width: 620px; margin: 0 auto 32px; color: #C5C8D4; }
+.cta-buttons { display: flex; justify-content: center; flex-wrap: wrap; gap: 16px; }
+.cta-buttons .btn { min-width: 230px; }
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+.site-footer {
+  background: var(--se-ink-2);
+  color: #A9ABBB;
+  padding: 72px 0 0;
+  font-size: 15px;
+}
+/* Column ratios follow the v2 comp, where CONTACT sits just past halfway and
+   SITE sits well to the right. minmax floors stop the two link columns
+   collapsing narrower than their longest label ("Contact Us") before the
+   breakpoint below takes over. */
+.footer-top {
+  display: grid;
+  grid-template-columns: minmax(260px, 2fr) minmax(190px, 1.3fr) minmax(140px, 0.9fr);
+  gap: 56px;
+  padding-bottom: 54px;
+}
+.footer-brand img { height: 40px; margin-bottom: 22px; }
+.footer-brand p { max-width: 330px; font-size: 14.5px; line-height: 1.65; }
+.footer-license { text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 18px; }
+.footer-serving { color: var(--se-white); font-weight: 600; }
+.footer-col h4 {
+  color: var(--se-white);
+  font-size: 16px;
+  letter-spacing: 0.1em;
+  margin-bottom: 20px;
+}
+.footer-col ul { display: grid; gap: 12px; }
+.footer-col a, .footer-col .ph { transition: color 0.25s var(--se-ease); }
+.footer-col a:hover { color: var(--se-blue-bright); }
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 24px 0;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  font-size: 13px;
+  color: #74768A;
+}
+.footer-bottom p { margin: 0; }
+.footer-legal { display: flex; gap: 20px; }
+.footer-legal a:hover { color: var(--se-blue-bright); }
+
+/* ==========================================================================
+   CHAT WIDGET (placeholder — swap for the GHL widget)
+   ========================================================================== */
+.chat-fab {
+  position: fixed;
+  right: 24px; bottom: 24px;
+  z-index: 800;
+  width: 58px; height: 58px;
+  border-radius: 50%;
+  border: none;
+  background: var(--se-blue);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 12px 30px rgba(45,122,191,0.45);
+  transition: transform 0.28s var(--se-ease), background 0.28s var(--se-ease), box-shadow 0.28s var(--se-ease);
+}
+.chat-fab svg { width: 25px; height: 25px; fill: var(--se-white); }
+.chat-fab:hover {
+  transform: scale(1.08);
+  background: var(--se-blue-bright);
+  box-shadow: 0 14px 38px rgba(0,174,239,0.55);
+}
+
+.chat-scrim {
+  position: fixed; inset: 0;
+  background: rgba(5,4,14,0.55);
+  z-index: 900;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s var(--se-ease);
+}
+.chat-scrim.is-open { opacity: 1; pointer-events: auto; }
+
+.chat-panel {
+  position: fixed;
+  top: 0; right: 0; bottom: 0;
+  width: min(420px, 100%);
+  background: var(--se-white);
+  z-index: 901;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  visibility: hidden;
+  transition: transform 0.42s var(--se-ease), visibility 0.42s var(--se-ease);
+  box-shadow: -20px 0 60px rgba(0,0,0,0.3);
+}
+.chat-panel.is-open { transform: translateX(0); visibility: visible; }
+.chat-head {
+  background: var(--se-navy);
+  color: var(--se-white);
+  padding: 26px 24px 22px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.chat-head h3 { color: var(--se-white); margin-bottom: 6px; text-transform: none; letter-spacing: 0; }
+.chat-head p { color: var(--se-body-dark); font-size: 14px; margin: 0; }
+.chat-close {
+  flex-shrink: 0;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.12);
+  color: var(--se-white);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.25s var(--se-ease);
+}
+.chat-close:hover { background: rgba(255,255,255,0.25); }
+.chat-body { padding: 26px 24px; overflow-y: auto; flex: 1; }
+.chat-option {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 17px;
+  border: 1px solid var(--se-gray-line);
+  border-radius: var(--se-radius);
+  margin-bottom: 13px;
+  transition: border-color 0.25s var(--se-ease), transform 0.25s var(--se-ease), box-shadow 0.25s var(--se-ease);
+}
+.chat-option:hover {
+  border-color: var(--se-blue);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(45,122,191,0.18);
+}
+.chat-option-icon {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--se-gray);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.chat-option-icon svg { width: 19px; height: 19px; fill: var(--se-blue); }
+.chat-option-label {
+  display: block;
+  font-family: var(--se-font-display);
+  font-weight: 700;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--se-navy);
+}
+.chat-option-sub { font-size: 13.5px; color: #6B6B76; }
+.chat-note {
+  font-size: 13.5px;
+  color: #8A8A94;
+  margin-top: 16px;
+  padding-top: 15px;
+  border-top: 1px dashed var(--se-gray-line);
+}
+
+/* ==========================================================================
+   SCROLL ANIMATIONS
+   ========================================================================== */
+/* Everything below is gated behind html.js, which main.js sets the instant it
+   runs. If the script never runs — blocked, or the markup was injected after
+   it already finished, as page builders commonly do — nothing is ever hidden
+   and the page reads normally without the animation. Hiding content by
+   default is what turns one failed script into a blank page. */
+.anim {
+  transition: opacity 0.75s var(--se-ease), transform 0.75s var(--se-ease);
+  will-change: opacity, transform;
+}
+html.js .anim { opacity: 0; }
+html.js .anim[data-anim="up"]    { transform: translateY(28px); }
+html.js .anim[data-anim="fade"]  { transform: none; }
+html.js .anim[data-anim="left"]  { transform: translateX(-34px); }
+html.js .anim[data-anim="right"] { transform: translateX(34px); }
+html.js .anim.is-in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  html.js .anim,
+  .anim { opacity: 1 !important; transform: none !important; transition: none; }
+  .hero-bg { transform: none !important; }
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+@media (max-width: 1180px) {
+  .carousel { --se-card-w: 340px; }
+  .about-inner { gap: 48px; }
+}
+
+/* No flow-centring fallback. It existed when the call link was a full button
+   and the actions group was wide enough to collide with a truly centred nav.
+   As a plain text link the group is 322px, and the arithmetic
+   (max(brand, actions) * 2 + nav + gaps) says true centring clears both sides
+   from about 1057px — below the 1080px point where the hamburger takes over.
+   So .nav-primary stays absolutely centred at every width it is visible. */
+
+@media (max-width: 1080px) {
+  .nav-primary, .nav-actions { display: none; }
+  .nav-toggle { display: flex; }
+  .brand img { height: 34px; }
+}
+
+@media (max-width: 900px) {
+  .about-inner { grid-template-columns: 1fr; gap: 46px; }
+  .about-copy > p { max-width: none; }
+  .steps { grid-template-columns: 1fr; gap: 42px; }
+  .step { padding: 0; }
+  .step + .step::before { display: none; }
+  .step + .step { padding-top: 42px; border-top: 1px solid rgba(255,255,255,0.14); }
+  .footer-top {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px 32px;
+  }
+  .footer-brand { grid-column: 1 / -1; }
+  .footer-brand p { max-width: none; }
+}
+
+@media (max-width: 700px) {
+  :root { --se-header-h: 68px; }
+  .section { padding: 64px 0; }
+  .process { padding: 72px 0 76px; }
+  .hero { min-height: 0; }
+  .hero .container { padding-top: calc(var(--se-header-h) + 56px); padding-bottom: 64px; }
+  .hero-cta { flex-direction: column; align-items: stretch; }
+  .hero-cta .btn { width: 100%; }
+  .carousel { --se-card-w: 82vw; --se-card-gap: 18px; }
+  .carousel-viewport { -webkit-mask-image: none; mask-image: none; padding: 20px 0 26px; }
+  .carousel-arrow { display: none; }
+  .cta-box { padding: 38px 22px 34px; border-width: 3px; }
+  .cta-buttons { flex-direction: column; }
+  .cta-buttons .btn { width: 100%; min-width: 0; }
+  .topbar p { font-size: 11px; letter-spacing: 0.09em; }
+  .audience-item { gap: 16px; }
+  .audience-icon { flex-basis: 54px; width: 54px; height: 54px; }
+  .audience-icon img { width: 40px; height: 40px; }
+  .footer-top { grid-template-columns: 1fr; gap: 34px; }
+  .footer-bottom { justify-content: center; text-align: center; }
+  .footer-legal { justify-content: center; }
+}
+
+/* ==========================================================================
+   FONT HARDENING (for page builders)
+   --------------------------------------------------------------------------
+   GHL ships its own theme stylesheet, which can load after this one and reset
+   font-family on plain elements — headings and body copy fall back to the
+   builder's default and the brand fonts appear not to have loaded at all.
+
+   These rules re-assert the fonts using two-level descendant selectors, which
+   outrank the single-class rules a theme typically uses. They are scoped to
+   our own containers, so nothing the builder renders elsewhere on the page is
+   affected. Body font first, display font second so headings win.
+
+   !important is deliberate here and confined to this block. Some builder
+   themes set font-family with !important themselves, and without matching it
+   the brand fonts lose no matter how specific these selectors are. Everything
+   below is scoped to our own containers, so this cannot leak into the
+   builder's own UI or any other element on the page.
+   ========================================================================== */
+.topbar, .topbar *,
+.site-header, .site-header *,
+.mobile-panel, .mobile-panel *,
+.hero, .hero *,
+.section, .section *,
+.site-footer, .site-footer *,
+.chat-panel, .chat-panel *,
+.carousel, .carousel * {
+  /* Literal stacks, not var(). A builder that defines its own --font-body
+     would otherwise hijack this and the brand font would silently vanish —
+     which is exactly what happened before the variables were namespaced. */
+  font-family: "Work Sans", system-ui, -apple-system, sans-serif !important;
+}
+
+/* Must also be !important, or the body-font rule above (which is) would win
+   and every heading would render in Work Sans. */
+/* The trailing `... *` variant matters. These rules pin the element itself,
+   but the body-font rule above uses `.site-header *`, which catches any
+   <span> nested inside — and the phone number and several button labels are
+   wrapped in spans. Without covering descendants the container gets Barlow
+   while its visible text renders in Work Sans. */
+:is(.topbar, .site-header, .mobile-panel, .hero, .section, .site-footer, .chat-panel, .carousel)
+:is(h1, h2, h3, h4, .btn, .eyebrow, .card-tag, .step-num, .about-sub,
+    .nav-links a, .mobile-links a, .footer-col h4, .footer-license,
+    .chat-option-label, .nav-phone, .nav-call),
+:is(.topbar, .site-header, .mobile-panel, .hero, .section, .site-footer, .chat-panel, .carousel)
+:is(h1, h2, h3, h4, .btn, .eyebrow, .card-tag, .step-num, .about-sub,
+    .nav-links a, .mobile-links a, .footer-col h4, .footer-license,
+    .chat-option-label, .nav-phone, .nav-call) * {
+  font-family: "Barlow Condensed", "Arial Narrow", sans-serif !important;
+}
+
+/* The announcement bar's own paragraph — it sits directly inside .topbar, so
+   it can't be reached from the scoped list above without also catching every
+   other paragraph on the page. */
+.topbar .container p { font-family: "Barlow Condensed", "Arial Narrow", sans-serif !important; }
+
+/* ==========================================================================
+   FONT-WEIGHT HARDENING
+   --------------------------------------------------------------------------
+   The block above pins font-family, but a builder theme also sets its own
+   font-weight on headings — which is how GHL ended up rendering the right
+   family at the wrong weight: correct Barlow Condensed, far too light.
+   Pinning the family alone is not enough.
+
+   Same scoping and the same !important reasoning as the family rules. These
+   values mirror the design exactly; if a weight changes above, change it
+   here too or the override will quietly hold the old value.
+   ========================================================================== */
+:is(.topbar, .site-header, .mobile-panel, .hero, .section, .site-footer, .chat-panel, .carousel) h1,
+.hero h1 { font-weight: 800 !important; }
+
+:is(.topbar, .site-header, .mobile-panel, .hero, .section, .site-footer, .chat-panel, .carousel)
+:is(h2, h3, h4, .about-sub, .footer-col h4, .chat-option-label) { font-weight: 700 !important; }
+
+:is(.topbar, .site-header, .mobile-panel, .hero, .section, .site-footer, .chat-panel, .carousel)
+:is(.btn, .mobile-links a, .eyebrow--rule) { font-weight: 700 !important; }
+
+:is(.topbar, .site-header, .mobile-panel, .hero, .section, .site-footer, .chat-panel, .carousel)
+:is(.nav-links a, .footer-serving, .card-tag) { font-weight: 600 !important; }
+:is(.topbar, .site-header, .mobile-panel, .hero, .section, .site-footer, .chat-panel, .carousel)
+.eyebrow { font-weight: 700 !important; }
+
+.topbar .container p { font-weight: 600 !important; }
+.step-num { font-weight: 800 !important; }
+
+/* Body copy and the hero <strong> — left to the variable Work Sans. */
+:is(.hero, .section, .site-footer) :is(p, li) { font-weight: 400 !important; }
+:is(.hero, .section, .site-footer) :is(strong, b) { font-weight: 700 !important; }
+:is(.hero, .section) p.eyebrow  { font-weight: 700 !important; }
+:is(.hero, .section) p.card-tag { font-weight: 600 !important; }
+.footer-serving { font-weight: 600 !important; }
+
+/* ==========================================================================
+   COLOUR HARDENING
+   --------------------------------------------------------------------------
+   Third and last of the same problem: the builder theme sets `color` too, so
+   the blue accents rendered grey — the card eyebrows most visibly.
+
+   ORDER MATTERS HERE. The generic rules come first and the accents last,
+   because .eyebrow and .card-tag are <p> elements and .about-sub is an <h3>:
+   with the accents declared first, the generic paragraph and heading rules
+   below them win on later-wins-at-equal-specificity and the blue goes grey
+   again. That is exactly the bug this ordering fixes.
+   ========================================================================== */
+
+/* 1. Generic — headings and copy on light sections */
+:is(.section:not(.on-dark), .carousel) :is(h1, h2, h3, h4) { color: var(--se-navy) !important; }
+:is(.section:not(.on-dark)) :is(p, li)                     { color: var(--se-body) !important; }
+.card-body p:not(.card-tag)                                { color: #5A5A66 !important; }
+.section-head .lede                                        { color: #5A5A66 !important; }
+
+/* 2. Dark sections and the hero */
+.on-dark :is(h1, h2, h3, h4)        { color: var(--se-white) !important; }
+.on-dark :is(p, li), .on-dark .lede { color: var(--se-body-dark) !important; }
+.hero :is(h1, h2, h3, h4)           { color: var(--se-white) !important; }
+.hero .lede                         { color: #E2E5EE !important; }
+.hero .eyebrow--rule                { color: var(--se-white) !important; }
+.cta-box :is(h1, h2, h3, h4)        { color: var(--se-white) !important; }
+.cta-box .lede                      { color: #C5C8D4 !important; }
+
+/* 3. Header, announcement bar, footer */
+.topbar, .topbar .container p        { color: var(--se-white) !important; }
+.site-header .nav-links a            { color: var(--se-white) !important; }
+.site-footer :is(h4, .footer-serving){ color: var(--se-white) !important; }
+.mobile-panel .mobile-links a        { color: var(--se-white) !important; }
+
+/* 4. Accents — deliberately higher specificity, not merely declared later.
+   The generic rules above compute to (0,2,1): `:is(.section:not(.on-dark))`
+   contributes two classes and `:is(p, li)` one element. An accent written as
+   `:is(.section) .card-tag` is only (0,2,0) and loses on specificity no
+   matter where it appears in the file — reordering alone did not fix this.
+   Repeating the class (.card-tag.card-tag) takes it to (0,3,0), which beats
+   (0,2,1) outright. Ugly, but unambiguous and immune to reordering. */
+:is(.hero, .section, .site-footer, .carousel) .eyebrow.eyebrow   { color: var(--se-blue) !important; }
+:is(.hero, .section, .site-footer, .carousel) .card-tag.card-tag { color: var(--se-blue) !important; }
+:is(.section, .site-footer) .about-sub.about-sub                 { color: var(--se-blue) !important; }
+.step-num.step-num                                               { color: var(--se-blue) !important; }
+
+.on-dark .eyebrow.eyebrow,
+.on-dark .card-tag.card-tag,
+.on-dark .about-sub.about-sub                                    { color: var(--se-blue-light) !important; }
+
+.hero .eyebrow--rule.eyebrow--rule                               { color: var(--se-white) !important; }
+
+/* 5. Button labels. Same doubled-class trick — a theme rule on `.btn` is
+   (0,1,0) but one on `a`/`button` inside a scoped block can reach further,
+   and greyed-out button text is very visible. */
+.btn.btn--primary, .btn.btn--bright, .btn.btn--ghost, .btn.btn--dark { color: var(--se-white) !important; }
+.btn.btn--outline-navy                                               { color: var(--se-navy) !important; }
+.btn.btn--outline-navy:hover                                         { color: var(--se-blue) !important; }
+
+/* Header call link — pinned like everything else so the theme can't reclaim it */
+.site-header .nav-call.nav-call { font-weight: 600 !important; color: var(--se-white) !important; }
+.site-header .nav-call.nav-call:hover { color: var(--se-blue-bright) !important; }
+
+/* ==========================================================================
+   ANNOUNCEMENT BAR — phones only
+   Hidden below the tablet breakpoint. The sticky-header script measures the
+   bar to decide when to lock; with the bar absent its height reads 0 and the
+   header locks immediately, which is the behaviour we want on a phone.
+   ========================================================================== */
+@media (max-width: 767px) {
+  .topbar { display: none; }
+}
+
+/* ==========================================================================
+   DOT GRID + SPOTLIGHT
+   A static 24px dot lattice (Essential Geometry "Grid 03") laid over the hero
+   photo and the CTA box, plus a second copy of the same lattice that lightens
+   under the pointer. Overlay only: nothing moves, nothing glows, and both
+   layers are pointer-events:none so they never intercept a click.
+
+   Source component: ../components/dot-grid-spotlight/
+   ========================================================================== */
+/* The hero is pulled up by the header's height so the bar floats over the
+   photo, which means the hero's own top --se-header-h sits behind the
+   translucent nav. Starting the lattice below that line keeps the dots out of
+   the nav bar, where they were showing through the blur. The topbar is in
+   normal flow above the header and never overlaps the hero, so only the
+   header height is discounted. */
+.hero .dot-grid,
+.hero .dot-spotlight {
+  top: var(--se-header-h);
+}
+
+.dot-grid,
+.dot-spotlight {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  --dot-gap: 24px;      /* lattice pitch, matches the Grid 03 source art */
+  --dot-size: 0.9px;    /* dot radius */
+  --dot-offset: 0px;
+
+  background-image: radial-gradient(
+    var(--dot-color) var(--dot-size),
+    transparent calc(var(--dot-size) + 0.5px)
+  );
+  background-size: var(--dot-gap) var(--dot-gap);
+  background-position: var(--dot-offset) var(--dot-offset);
+}
+
+/* Always-on layer. Kept faint on purpose — it should read as texture in the
+   photograph, not as a grid drawn on top of it. The rollover layer below is
+   the one that carries the contrast. */
+.dot-grid {
+  --dot-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Pointer-tracked layer: identical lattice, brighter, revealed only inside a
+   soft circle at --mx/--my. main.js writes those two properties and flips
+   --spot-opacity on enter/leave. */
+.dot-spotlight {
+  --dot-color: rgba(255, 255, 255, 0.58);
+  --spot-size: 280px;      /* radius of the lit circle */
+  --spot-falloff: 40%;     /* where the mask starts dropping off */
+  --spot-opacity: 0;
+  --mx: 50%;
+  --my: 50%;
+
+  opacity: var(--spot-opacity);
+  transition: opacity 420ms var(--se-ease);
+
+  -webkit-mask-image: radial-gradient(
+    circle var(--spot-size) at var(--mx) var(--my),
+    #000 0%, rgba(0, 0, 0, 0.40) var(--spot-falloff), transparent 100%
+  );
+          mask-image: radial-gradient(
+    circle var(--spot-size) at var(--mx) var(--my),
+    #000 0%, rgba(0, 0, 0, 0.40) var(--spot-falloff), transparent 100%
+  );
+}
+
+/* Keeps the lattice off the lower half of the hero, where the lede and the
+   button sit. */
+.dot-grid--fade-bottom {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 45%, transparent 100%);
+          mask-image: linear-gradient(to bottom, #000 0%, #000 45%, transparent 100%);
+}
+
+/* Stacking. Neither host gives us a free layer between its background and its
+   copy, so both dot layers sit at the background's z-index and rely on DOM
+   order to stack: grid, then spotlight, then the content element. */
+.hero > .dot-grid,
+.hero > .dot-spotlight     { z-index: 1; }   /* .hero-scrim 1, .hero .container 2 */
+.process > .dot-grid,
+.process > .dot-spotlight  { z-index: 0; }   /* .process-glow 0, .process .container 1 */
+
+/* The dots read over the blue glow, not over the flat #05050C around it, so
+   the lattice is masked to roughly the glow's footprint — it fades out before
+   it reaches the section edges. */
+.process > .dot-grid,
+.process > .dot-spotlight {
+  -webkit-mask-image: radial-gradient(ellipse 62% 55% at 50% 34%, #000 0%, rgba(0,0,0,0.45) 55%, transparent 78%);
+          mask-image: radial-gradient(ellipse 62% 55% at 50% 34%, #000 0%, rgba(0,0,0,0.45) 55%, transparent 78%);
+}
+
+/* The spotlight needs its own mask to track the pointer, so its fade has to be
+   composed rather than replaced: the tracking circle goes in mask-image and
+   the glow footprint moves to a second mask layer. */
+.process > .dot-spotlight {
+  --dot-color: rgba(255, 255, 255, 0.50);
+  -webkit-mask-image:
+    radial-gradient(circle var(--spot-size) at var(--mx) var(--my),
+      #000 0%, rgba(0,0,0,0.40) var(--spot-falloff), transparent 100%),
+    radial-gradient(ellipse 62% 55% at 50% 34%, #000 0%, rgba(0,0,0,0.45) 55%, transparent 78%);
+  -webkit-mask-composite: source-in;
+          mask-image:
+    radial-gradient(circle var(--spot-size) at var(--mx) var(--my),
+      #000 0%, rgba(0,0,0,0.40) var(--spot-falloff), transparent 100%),
+    radial-gradient(ellipse 62% 55% at 50% 34%, #000 0%, rgba(0,0,0,0.45) 55%, transparent 78%);
+          mask-composite: intersect;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dot-spotlight { display: none; }
+}
+
+/* Touch devices have no hover to track; the static lattice still shows. */
+@media (hover: none) {
+  .dot-spotlight { display: none; }
+}

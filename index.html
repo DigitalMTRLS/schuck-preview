@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Electrician Santa Cruz County | Schuck Electric</title>
+<meta name="description" content="Owner-operated electrical contractor serving Santa Cruz County and the South Bay. Panel upgrades, rewires, EV charger installation, and more. Licensed C-10, CSLB #1106812." />
+<link rel="icon" href="assets/logo/favicon-32.png" />
+<link rel="apple-touch-icon" href="assets/logo/favicon-180.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<!-- One request per family on purpose — a combined query needs an "&", which
+     breaks the URL if anything escapes it to &amp; and silently drops the
+     second family. -->
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- ===================== ANNOUNCEMENT BAR =====================
+     Scrolls away with the page; the header below it is sticky and
+     locks to the top once this bar clears. -->
+<div class="topbar">
+  <div class="container">
+    <p>Licensed C-10 Electrician <span class="topbar-div">|</span> CSLB #1106812 <span class="topbar-div">|</span> Fully Insured</p>
+  </div>
+</div>
+
+<!-- ===================== HEADER ===================== -->
+<header class="site-header" id="siteHeader">
+  <div class="container">
+    <a href="./" class="brand" aria-label="Schuck Electric home">
+      <img src="assets/logo/schuck-logo-white.png" alt="Schuck Electric" width="170" height="42" />
+    </a>
+
+    <nav class="nav-primary" aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="./" aria-current="page">Home</a></li>
+        <li><a href="pending.html">About</a></li>
+        <li><a href="pending.html">Services</a></li>
+        <li><a href="pending.html">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="nav-actions">
+      <!-- Plain underlined link, not a button, until it becomes one later.
+           The mobile panel keeps its buttoned version. -->
+      <a class="nav-call" href="tel:+18319008254">
+        <svg class="ico" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+        <span>Call (831) 900-8254</span>
+      </a>
+      <a class="btn btn--primary btn--sm" href="mailto:chaz@schuckelectric.com">Get a Free Estimate</a>
+    </div>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobilePanel">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ===================== MOBILE PANEL ===================== -->
+<div class="mobile-panel" id="mobilePanel" aria-hidden="true">
+  <div class="mobile-panel-head">
+    <a href="./" class="brand"><img src="assets/logo/schuck-logo-white.png" alt="Schuck Electric" /></a>
+    <button class="mobile-close" id="mobileClose" aria-label="Close menu">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.3 5.7 12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7l1.4-1.4L10.6 10.6l6.3-6.3z"/></svg>
+    </button>
+  </div>
+  <ul class="mobile-links">
+    <li><a href="./" aria-current="page">Home</a></li>
+    <li><a href="pending.html">About</a></li>
+    <li><a href="pending.html">Services</a></li>
+    <li><a href="pending.html">Contact</a></li>
+  </ul>
+  <div class="mobile-actions">
+    <a class="btn btn--ghost btn--block" href="tel:+18319008254">
+      <svg class="ico" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+      <span>(831) 900-8254</span>
+    </a>
+    <a class="btn btn--primary btn--block" href="mailto:chaz@schuckelectric.com">Get a Free Estimate</a>
+  </div>
+</div>
+<div class="mobile-scrim" id="mobileScrim"></div>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero" data-spotlight data-spot-size="300px">
+  <div class="hero-bg" data-parallax="0.18"><img src="assets/img/hero.jpg" alt="" /></div>
+  <div class="hero-scrim"></div>
+  <div class="dot-grid dot-grid--fade-bottom" aria-hidden="true"></div>
+  <div class="dot-spotlight" aria-hidden="true"></div>
+  <div class="container">
+    <div class="hero-content">
+      <p class="eyebrow eyebrow--rule anim" data-anim="up" data-delay="0">Schuck Electric &mdash; Locally Owned and Operated</p>
+      <h1 class="anim" data-anim="up" data-delay="90">Powering Homes and Businesses Across Santa Cruz County.</h1>
+      <p class="lede anim" data-anim="up" data-delay="180">Owner-operated electrical contracting for residential, commercial, and new construction projects. <strong>Licensed C-10 and fully insured</strong>, with permitted and inspected work on every job.</p>
+      <div class="hero-cta anim" data-anim="up" data-delay="270">
+        <a class="btn btn--primary" href="mailto:chaz@schuckelectric.com">Request a Quote <span class="btn-arrow">&rarr;</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SERVICES ===================== -->
+<section class="section section--services on-gray" id="services">
+  <div class="container">
+    <div class="section-head center">
+      <p class="eyebrow anim" data-anim="up">Our Services</p>
+      <h2 class="anim" data-anim="up" data-delay="80">How Can We Help You?</h2>
+      <p class="lede anim" data-anim="up" data-delay="160">From a single outlet to a full panel upgrade, every project gets the same standard: clean work, done to code, done right the first time.</p>
+    </div>
+  </div>
+
+  <div class="carousel anim" data-anim="fade" data-delay="120">
+    <button class="carousel-arrow carousel-arrow--prev" aria-label="Previous service">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.4 4.6 8 12l7.4 7.4 1.4-1.4L10.8 12l6-6z"/></svg>
+    </button>
+
+    <div class="carousel-viewport" id="serviceTrackViewport">
+      <div class="carousel-track" id="serviceTrack">
+
+        <article class="card">
+          <div class="card-media"><img src="assets/img/service-fullscale.jpg" alt="Electrician stripping wire over a set of building plans" loading="lazy" /></div>
+          <div class="card-body">
+            <p class="card-tag">Full-Scale Electrical</p>
+            <h3>Rewires &amp; Construction Electrical</h3>
+            <p>Complete wiring and electrical infrastructure for custom homes, ADUs, remodels, and large residential builds. Permitted, inspected, and executed precisely to code&mdash;from raw framing to final trim.</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-media"><img src="assets/img/service-specialized.jpg" alt="EV charger installed on a home exterior wall" loading="lazy" /></div>
+          <div class="card-body">
+            <p class="card-tag">Specialized Installs</p>
+            <h3>Upgrades &amp; Specialty Installs</h3>
+            <p>Fast, reliable electrical enhancements for your home. We handle main panel upgrades, dedicated circuits, EV charger installations, hot tub hookups, and modern recessed lighting design.</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-media"><img src="assets/img/service-maintenance.jpg" alt="Exterior electrical panel and meter on a stucco wall" loading="lazy" /></div>
+          <div class="card-body">
+            <p class="card-tag">Service &amp; Maintenance</p>
+            <h3>Repair &amp; Troubleshooting</h3>
+            <p>Rapid, expert diagnostic and repair services for flickering lights, tripped breakers, and urgent electrical issues. On-demand service work to keep your home safely powered.</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-media"><img src="assets/img/service-commercial.jpg" alt="Electrician installing conduit runs on a commercial job site" loading="lazy" /></div>
+          <div class="card-body">
+            <p class="card-tag">Commercial Services</p>
+            <h3>Commercial &amp; Event Electrical</h3>
+            <p>Tailored power solutions for retail spaces, restaurants, apartment complexes, and office builds. We also design temporary electrical setups for concerts, weddings, and special events.</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-media"><img src="assets/img/service-generator.jpg" alt="Whole-home standby generator installed beside a residence" loading="lazy" /></div>
+          <div class="card-body">
+            <p class="card-tag">Backup Power</p>
+            <h3>Whole-Home Generator Solutions</h3>
+            <p>Protect your property from unexpected grid outages with dedicated standby generator installations. Complete system sizing, transfer switch setup, and seamless backup power integration.</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-media"><img src="assets/img/service-trade.jpg" alt="Electrical rough-in wiring through new construction framing" loading="lazy" /></div>
+          <div class="card-body">
+            <p class="card-tag">Trade Partnerships</p>
+            <h3>GC Partnerships</h3>
+            <p>Dependable electrical subcontracting for general contractors and trade partners. On-time scheduling, clean execution, and seamless integration with your primary jobsite workflow.</p>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <button class="carousel-arrow carousel-arrow--next" aria-label="Next service">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8.6 4.6 7.4 7.4-7.4 7.4-1.4-1.4 6-6-6-6z"/></svg>
+    </button>
+  </div>
+
+  <div class="container">
+    <div class="carousel-dots" id="serviceDots" role="tablist" aria-label="Service slides"></div>
+    <div class="center-cta anim" data-anim="up">
+      <a href="pending.html" class="btn btn--primary">View All Services <span class="btn-arrow">&rarr;</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ABOUT ===================== -->
+<section class="section about" id="about">
+  <div class="container">
+    <div class="about-inner">
+      <div class="about-copy">
+        <p class="eyebrow anim" data-anim="up">About Us</p>
+        <h2 class="anim" data-anim="up" data-delay="70">A Commitment to Detail on Every Job</h2>
+        <p class="anim" data-anim="up" data-delay="140">Schuck Electric is an owner-operated electrical contracting company based in Felton, California. When you call, you talk to the licensed electrician who will actually do the work.</p>
+        <p class="anim" data-anim="up" data-delay="200">That direct relationship shows up in the results &mdash; serving homeowners, realtors, and general contractors throughout Santa Cruz County and the South Bay.</p>
+      </div>
+
+      <div class="about-audience">
+        <h3 class="about-sub anim" data-anim="up">Trusted by Homeowners, Realtors, and Builders</h3>
+
+        <ul class="audience-list">
+          <li class="audience-item anim" data-anim="up" data-delay="80">
+            <div class="audience-icon"><img src="assets/icons/homeowner.gif" alt="" loading="lazy" /></div>
+            <div>
+              <h4>Homeowners</h4>
+              <p>Panel upgrades, rewires, lighting, EV chargers, and troubleshooting. Clear communication, tidy job sites, and work that passes inspection the first time.</p>
+            </div>
+          </li>
+          <li class="audience-item anim" data-anim="up" data-delay="160">
+            <div class="audience-icon"><img src="assets/icons/gc.gif" alt="" loading="lazy" /></div>
+            <div>
+              <h4>General Contractors</h4>
+              <p>A reliable electrical sub for remodels and new construction. Shows up on schedule, coordinates with your timeline, and keeps the inspector happy.</p>
+            </div>
+          </li>
+          <li class="audience-item anim" data-anim="up" data-delay="240">
+            <div class="audience-icon"><img src="assets/icons/realtor.gif" alt="" loading="lazy" /></div>
+            <div>
+              <h4>Realtors</h4>
+              <p>Fast turnarounds on inspection repairs, safety corrections, and pre-sale electrical work. Documentation you can hand straight to escrow.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PROCESS + CTA ===================== -->
+<section class="section process on-dark" id="process" data-spotlight data-spot-size="320px">
+  <div class="process-glow" aria-hidden="true"></div>
+  <div class="dot-grid" aria-hidden="true"></div>
+  <div class="dot-spotlight" aria-hidden="true"></div>
+  <div class="container">
+    <div class="section-head center">
+      <h2 class="anim" data-anim="up">Getting Started Is Simple</h2>
+    </div>
+
+    <div class="steps">
+      <div class="step anim" data-anim="up" data-delay="0">
+        <div class="step-num" data-count="01">01</div>
+        <h3>Reach Out</h3>
+        <p>Call, text, or send a message describing your project. You'll hear back promptly, from the electrician, not an answering service.</p>
+      </div>
+      <div class="step anim" data-anim="up" data-delay="120">
+        <div class="step-num" data-count="02">02</div>
+        <h3>Get a Clear Estimate</h3>
+        <p>Walk through the scope together and receive a straightforward price. No padding, no pressure.</p>
+      </div>
+      <div class="step anim" data-anim="up" data-delay="240">
+        <div class="step-num" data-count="03">03</div>
+        <h3>Work Gets Done Right</h3>
+        <p>Permitted, inspected, and cleaned up when finished. You'll know exactly what was done and why.</p>
+      </div>
+    </div>
+
+    <div class="cta-box anim" data-anim="up">
+      <div class="cta-bg" aria-hidden="true"><img src="assets/img/cta.jpg" alt="" loading="lazy" /></div>
+      <div class="cta-content">
+        <h2>Wiring, Upgrades, Lighting, EV Chargers, and More</h2>
+        <p class="lede">Tell us about your project and get a straightforward answer. Free estimates on any job beyond a standard service call.</p>
+        <div class="cta-buttons">
+          <a class="btn btn--dark" href="tel:+18319008254">Call (831) 900-8254</a>
+          <a class="btn btn--primary" href="mailto:chaz@schuckelectric.com">Contact Us</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="assets/logo/schuck-logo-white.png" alt="Schuck Electric" />
+        <p class="footer-license">Licensed &amp; Insured C-10 Electrical Contractor<br />CSLB #1106812</p>
+        <p class="footer-serving">Serving Santa Cruz County and the South Bay.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><span class="ph">123 Graham Hill Rd, Felton, CA 95018</span></li>
+          <li><a href="mailto:chaz@schuckelectric.com" class="ph">chaz@schuckelectric.com</a></li>
+          <li><a href="tel:+18319008254" class="ph">(831) 900-8254</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Site</h4>
+        <ul>
+          <li><a href="./">Home</a></li>
+          <li><a href="pending.html">About</a></li>
+          <li><a href="pending.html">Service</a></li>
+          <li><a href="pending.html">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; <span data-year>2026</span>. Schuck Electric. All Rights Reserved.</p>
+      <div class="footer-legal">
+        <a href="pending.html">Privacy Policy</a>
+        <a href="pending.html">Terms of Use</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Chat widget removed for now. When GHL's widget is enabled, or a
+     replacement is built, it goes here. main.js still contains initChat(),
+     which no-ops when this markup is absent. -->
+
+
+<script src="main.js"></script>
+</body>
+</html>
