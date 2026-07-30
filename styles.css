@@ -620,8 +620,15 @@ a:focus-visible, button:focus-visible {
 .card:hover .card-media img { transform: scale(1.06); }
 /* Column flex so .card-link can be pushed to the bottom with margin-top:auto.
    The six cards carry copy of noticeably different lengths, and without that
-   each link would sit directly under its own paragraph — ragged across a row. */
-.card-body { padding: 24px 26px 28px; flex: 1; display: flex; flex-direction: column; }
+   each link would sit directly under its own paragraph — ragged across a row.
+
+   The bottom is 24px against 26px sides so that the *glyphs* sit 26px off
+   each edge, not the boxes. .card-link has line-height 1, which leaves the
+   baseline 1.5px above the bottom of its box, and the card's 1px border adds
+   another. Setting all three sides to a literal 26px measures box-to-edge and
+   leaves the text visibly hanging low; 24px + 1.5 + 1 lands the baseline at
+   26.5px, which reads as square with the 26px sides. */
+.card-body { padding: 24px 26px 24px; flex: 1; display: flex; flex-direction: column; }
 .card-tag {
   font-family: var(--se-font-display);
   font-weight: 600;
