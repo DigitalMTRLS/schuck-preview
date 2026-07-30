@@ -618,7 +618,10 @@ a:focus-visible, button:focus-visible {
 .card-media { aspect-ratio: 16/9; overflow: hidden; background: #DDD; }
 .card-media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--se-ease); }
 .card:hover .card-media img { transform: scale(1.06); }
-.card-body { padding: 24px 26px 28px; flex: 1; }
+/* Column flex so .card-link can be pushed to the bottom with margin-top:auto.
+   The six cards carry copy of noticeably different lengths, and without that
+   each link would sit directly under its own paragraph — ragged across a row. */
+.card-body { padding: 24px 26px 28px; flex: 1; display: flex; flex-direction: column; }
 .card-tag {
   font-family: var(--se-font-display);
   font-weight: 600;
@@ -632,6 +635,44 @@ a:focus-visible, button:focus-visible {
    `.card-body p` (0,1,1) would otherwise beat `.card-tag` (0,1,0)
    and drag it back to body size. */
 .card-body p:not(.card-tag) { font-size: 15px; color: #5A5A66; line-height: 1.55; margin: 0; }
+
+/* Per-card call to action. Opens a mail draft with the service already in the
+   subject line, so an enquiry arrives labelled rather than as a bare "hello".
+   The underline lives on the inner label, not the anchor: text-decoration
+   inherits into descendants and cannot be switched off on a child, so
+   underlining the anchor would drag the arrow into it too. */
+.card-link {
+  margin-top: auto;      /* pins to the bottom of the card body */
+  padding-top: 24px;
+  /* flex-start, not stretch — stretch would run the anchor the full width of
+     the card and put the underline under the empty space past the arrow. The
+     card body's 26px padding does the aligning with the eyebrow and copy. */
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--se-navy);
+  font-family: var(--se-font-display);
+  /* 600, not 400. Only 600/700/800 of Barlow Condensed are self-hosted, so a
+     lighter value has no file to load and the browser synthesises it — which
+     is precisely the wrong-weight rendering GHL was showing before. 600 is
+     the lightest real weight available. */
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.25s var(--se-ease);
+}
+.card-link-label {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+.card-link:hover { color: var(--se-blue); }
+/* .btn:hover .btn-arrow does not reach here — this is not a .btn. */
+.card-link:hover .btn-arrow { transform: translateX(5px); }
 
 .carousel-dots {
   display: flex;
@@ -1065,11 +1106,11 @@ html.js .anim.is-in { opacity: 1; transform: none; }
    wrapped in spans. Without covering descendants the container gets Barlow
    while its visible text renders in Work Sans. */
 :is(.topbar, .site-header, .mobile-panel, .hero, .section, .site-footer, .chat-panel, .carousel)
-:is(h1, h2, h3, h4, .btn, .eyebrow, .card-tag, .step-num, .about-sub,
+:is(h1, h2, h3, h4, .btn, .eyebrow, .card-tag, .card-link, .step-num, .about-sub,
     .nav-links a, .mobile-links a, .footer-col h4, .footer-license,
     .chat-option-label, .nav-phone, .nav-call),
 :is(.topbar, .site-header, .mobile-panel, .hero, .section, .site-footer, .chat-panel, .carousel)
-:is(h1, h2, h3, h4, .btn, .eyebrow, .card-tag, .step-num, .about-sub,
+:is(h1, h2, h3, h4, .btn, .eyebrow, .card-tag, .card-link, .step-num, .about-sub,
     .nav-links a, .mobile-links a, .footer-col h4, .footer-license,
     .chat-option-label, .nav-phone, .nav-call) * {
   font-family: "Barlow Condensed", "Arial Narrow", sans-serif !important;
@@ -1100,6 +1141,17 @@ html.js .anim.is-in { opacity: 1; transform: none; }
 
 :is(.topbar, .site-header, .mobile-panel, .hero, .section, .site-footer, .chat-panel, .carousel)
 :is(.btn, .mobile-links a, .eyebrow--rule) { font-weight: 700 !important; }
+
+/* The card enquiry link, and its descendants. The visible text lives in a
+   child span, so a theme rule like `body a span { font-weight: 400 }` leaves
+   the anchor correct and still renders the label light — the same trap the
+   header phone number fell into. Pinning the parent alone is not enough. */
+:is(.section, .carousel) :is(.card-link.card-link, .card-link.card-link *) { font-weight: 600 !important; }
+
+/* Tracking is pinned here too. Nothing else on the page needed it, but this
+   link is specified at exactly 0 and builder themes do set letter-spacing on
+   links — a simulated `body a { letter-spacing: 2px }` took it straight over. */
+:is(.section, .carousel) :is(.card-link.card-link, .card-link.card-link *) { letter-spacing: 0 !important; }
 
 :is(.topbar, .site-header, .mobile-panel, .hero, .section, .site-footer, .chat-panel, .carousel)
 :is(.nav-links a, .footer-serving, .card-tag) { font-weight: 600 !important; }
@@ -1160,6 +1212,10 @@ html.js .anim.is-in { opacity: 1; transform: none; }
 :is(.hero, .section, .site-footer, .carousel) .eyebrow.eyebrow   { color: var(--se-blue) !important; }
 :is(.hero, .section, .site-footer, .carousel) .card-tag.card-tag { color: var(--se-blue) !important; }
 :is(.section, .site-footer) .about-sub.about-sub                 { color: var(--se-blue) !important; }
+/* The spans are pinned too, not left to inherit: a theme rule that matches
+   them directly (`a span`, say) beats inheritance no matter how weak it is. */
+:is(.section, .carousel) :is(.card-link.card-link, .card-link.card-link *) { color: var(--se-navy) !important; }
+:is(.section, .carousel) :is(.card-link.card-link:hover, .card-link.card-link:hover *) { color: var(--se-blue) !important; }
 .step-num.step-num                                               { color: var(--se-blue) !important; }
 
 .on-dark .eyebrow.eyebrow,
