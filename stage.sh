@@ -6,7 +6,7 @@
 #   ./stage.sh --publish  # refresh, commit and push (the client link goes live)
 #
 # Everything here except this script, README.md and .gitignore is DERIVED from
-# 01-SE WEBSITE v2/build/. Don't hand-edit it — edit the build and re-run, or
+# SE WEBSITE-2026/build/. Don't hand-edit it — edit the build and re-run, or
 # the change disappears on the next stage.
 #
 # This repo is PUBLIC so that GitHub Pages can serve it on the Free plan. Only
@@ -16,7 +16,7 @@
 set -euo pipefail
 
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-src="$here/../01-SE WEBSITE v2/build"
+src="$here/../SE WEBSITE-2026/build"
 
 [ -d "$src" ] || { echo "error: build not found at $src" >&2; exit 1; }
 

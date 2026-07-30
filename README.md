@@ -10,7 +10,7 @@ Static copy of the v2 home page, published for client review at:
 ./stage.sh --publish
 ```
 
-That rebuilds this folder from `01-SE WEBSITE v2/build/` and pushes. Pages
+That rebuilds this folder from `SE WEBSITE-2026/build/` and pushes. Pages
 redeploys in a minute or two. Run `./stage.sh` on its own to rebuild without
 publishing.
 
