@@ -518,6 +518,9 @@ a:focus-visible, button:focus-visible {
   z-index: 0;
   will-change: transform;
 }
+/* <picture> is an inline wrapper with auto height, so the img's height:100%
+   would resolve against nothing and collapse the photo. Give it the box. */
+.hero-bg picture { display: block; width: 100%; height: 100%; }
 .hero-bg img { width: 100%; height: 100%; object-fit: cover; }
 /* Neutral black, multiplied. The previous rgba(4,3,12,...) carried a blue
    channel four times its red, which read as a blue cast over the photo.
@@ -1100,13 +1103,58 @@ html.js .anim.is-in { opacity: 1; transform: none; }
   }
   .hero .container { padding-top: calc(var(--se-header-h) + 34px); padding-bottom: 56px; }
 
-  /* The tighter crop is a consequence of the full-height box, not an extra
-     zoom. Measured at 375x812: cover scales the 1981x1321 photo to 1413x942,
-     so 1038px of width is cropped and the vertical overflow is zero — the
-     whole frame top to bottom, closed right in on the entrance.
-     Vertical overflow being zero also means object-position's Y is inert
-     here; only scale or translate can reframe vertically, and neither is
-     wanted — an added scale pushed the sky out and cut into the roofline. */
+  /* The photograph fills the banner. It only works if the source is cut to a
+     portrait ratio — a 3:2 landscape frame forced into this box renders at
+     1413x942 and shows 375 of those pixels, 26.5% of the width, which is a
+     vertical slice through the middle of a house rather than a house.
+     See the note above .hero-bg below for the ratio to cut to. */
+
+  /* ---- MOBILE HERO IMAGE SPEC ------------------------------------------
+     Cut hero-mobile.jpg to 1080 x 2400 (9:20, 0.45).
+
+     Why 0.45: the phones that matter sit at 0.450-0.462 (iPhone 13 mini
+     through 15 Pro Max, Pixel 7, S22+), so at 0.45 cover trims 2-3% off the
+     top and bottom and nothing off the sides. The iPhone SE is the outlier at
+     0.562 and loses ~20% vertically.
+
+     Keep the house and any bright roofline BELOW 75% of the image height.
+     The CTA's bottom edge lands at 75% of the banner on a 812pt phone, 72% at
+     844, 66% at 915 — so everything above that line sits under type and needs
+     to stay sky or another open, even tone. The scrim is a flat 25%, which is
+     a veil, not a rescue: it cannot recover white text sitting on a lit
+     window. On the SE the copy reaches 91% and will overlap the roofline;
+     that is the accepted cost of not burying the house on every other phone.
+
+     Leave the outer ~8% of the width free of anything essential.
+     ---------------------------------------------------------------------- */
+
+  /* inset:0, not the desktop -8%. That overscan exists to give the parallax
+     somewhere to travel; here it would mean the delivered image has to be 16%
+     taller than the viewport just to avoid showing its edges, which makes the
+     ratio impossible to state cleanly. Box equals hero, so the target ratio
+     is simply the viewport's. */
+  .hero-bg { inset: 0; }
+  /* With no overscan there is nothing for the parallax to travel through, so
+     its translate would drag the photo's edge into view. !important because
+     main.js writes the transform as an inline style, and inline loses to an
+     important declaration. */
+  .hero-bg { transform: none !important; }
+
+  /* Flat, not a ramp. A gradient assumes it knows where the copy is and where
+     the subject is; with the image cut to purpose that assumption stops being
+     safe, and an even veil keeps the photograph reading as one picture rather
+     than one that fades out at the top. Still pure black on multiply, so it
+     darkens without tinting. */
+     25% flat. This is only safe because the delivered image keeps the copy
+     over sky — see the safe-area note on .hero-bg. If the house ever creeps
+     back up behind the lede, no flat value this light will hold it; the fix
+     is the crop, not the scrim. */
+  .hero .hero-scrim { background: rgba(0, 0, 0, 0.25); }
+
+  /* Tighter leading on the banner copy. At 1.62 the lede runs to five airy
+     lines here and pushes the CTA down the screen; the headline already sets
+     a tight rhythm and the body was not matching it. */
+  .hero .lede { line-height: 1.42; }
   .hero-cta { flex-direction: column; align-items: stretch; }
   .hero-cta .btn { width: 100%; }
   .carousel { --se-card-w: 82vw; --se-card-gap: 18px; }

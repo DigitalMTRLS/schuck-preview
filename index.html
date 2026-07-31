@@ -85,7 +85,18 @@
 
 <!-- ===================== HERO ===================== -->
 <section class="hero" data-spotlight data-spot-size="300px">
-  <div class="hero-bg" data-parallax="0.18"><img src="assets/img/hero.jpg" alt="" /></div>
+  <!-- Two crops of the same house. The wide one is framed for a landscape
+       banner; on a phone the box is portrait, so cover throws most of its
+       width away and the subject stops being legible. The _r2 frame is pulled
+       back with sky where the copy sits and the house below it, which is the
+       shape a tall crop needs. <picture> picks per viewport with no JS, and
+       only the chosen source is ever fetched. -->
+  <div class="hero-bg" data-parallax="0.18">
+    <picture>
+      <source media="(max-width: 700px)" srcset="assets/img/hero-mobile.jpg" />
+      <img src="assets/img/hero.jpg" alt="" />
+    </picture>
+  </div>
   <div class="hero-scrim"></div>
   <div class="dot-grid dot-grid--fade-bottom" aria-hidden="true"></div>
   <div class="dot-spotlight" aria-hidden="true"></div>
