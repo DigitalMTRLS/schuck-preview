@@ -35,10 +35,29 @@ rm -f "$here/HANDOFF.md"
 
 # The build's interior links are root-absolute (/about, /services, …), which is
 # right for the live GHL domain but wrong here: this is a Pages *project* site
-# served under /schuck-preview/, so those links would leave the site entirely
-# and land on a generic GitHub 404. Point them at the holding page instead, and
-# make "/" relative for the same reason. Multi-segment paths first.
-perl -pi -e 's{href="/(about|services|contact|privacy-policy|terms-of-use)"}{href="pending.html"}g; s{href="/"}{href="./"}g' "$here/index.html"
+# served under /schuck-preview/, so a root-absolute link leaves the site
+# entirely and lands on a generic GitHub 404. Rewrite them to the flat files
+# this repo actually serves.
+#
+# Pages that exist get their real file; the ones still unbuilt keep pointing at
+# the holding page. When a new page ships, move it out of the PENDING list — if
+# you forget, the link silently goes to "in production" instead of the page you
+# just built, which looks like nothing happened.
+BUILT_PAGES='services|contact'
+PENDING_PAGES='about|privacy-policy|terms-of-use'
+
+for f in "$here"/*.html; do
+  case "$(basename "$f")" in
+    pending.html|404.html) continue ;;   # generated below, not from the build
+  esac
+  # Multi-segment paths first, then the bare "/" — the other order would turn
+  # href="/services" into href="./services" before the specific rule saw it.
+  perl -pi -e "
+    s{href=\"/($BUILT_PAGES)\"}{href=\"\$1.html\"}g;
+    s{href=\"/($PENDING_PAGES)\"}{href=\"pending.html\"}g;
+    s{href=\"/\"}{href=\"./\"}g;
+  " "$f"
+done
 
 touch "$here/.nojekyll"   # stop Pages running the content through Jekyll
 

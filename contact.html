@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Contact | Schuck Electric</title>
+<meta name="description" content="Call, text, or email Schuck Electric. Owner-operated electrical contractor serving Santa Cruz County and the South Bay. Licensed C-10, CSLB #1106812." />
+<link rel="icon" href="assets/logo/favicon-32.png" />
+<link rel="apple-touch-icon" href="assets/logo/favicon-180.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<!-- One request per family on purpose — a combined query needs an "&", which
+     breaks the URL if anything escapes it to &amp; and silently drops the
+     second family. -->
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- ===================== ANNOUNCEMENT BAR ===================== -->
+<div class="topbar">
+  <div class="container">
+    <p>Licensed C-10 Electrician <span class="topbar-div">|</span> CSLB #1106812 <span class="topbar-div">|</span> Fully Insured</p>
+  </div>
+</div>
+
+<!-- ===================== HEADER ===================== -->
+<header class="site-header" id="siteHeader">
+  <div class="container">
+    <a href="./" class="brand" aria-label="Schuck Electric home">
+      <img src="assets/logo/schuck-logo-white.png" alt="Schuck Electric" width="170" height="42" />
+    </a>
+
+    <nav class="nav-primary" aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="./">Home</a></li>
+        <li><a href="pending.html">About</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="contact.html" aria-current="page">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="nav-actions">
+      <a class="nav-call" href="tel:+18319008254">
+        <svg class="ico" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+        <span>Call (831) 900-8254</span>
+      </a>
+      <a class="btn btn--primary btn--sm" href="mailto:chaz@schuckelectric.com">Get a Free Estimate</a>
+    </div>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobilePanel">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ===================== MOBILE PANEL ===================== -->
+<div class="mobile-panel" id="mobilePanel" aria-hidden="true">
+  <div class="mobile-panel-head">
+    <a href="./" class="brand"><img src="assets/logo/schuck-logo-white.png" alt="Schuck Electric" /></a>
+    <button class="mobile-close" id="mobileClose" aria-label="Close menu">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.3 5.7 12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7l1.4-1.4L10.6 10.6l6.3-6.3z"/></svg>
+    </button>
+  </div>
+  <ul class="mobile-links">
+    <li><a href="./">Home</a></li>
+    <li><a href="pending.html">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="contact.html" aria-current="page">Contact</a></li>
+  </ul>
+  <div class="mobile-actions">
+    <a class="btn btn--ghost btn--block" href="tel:+18319008254">
+      <svg class="ico" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+      <span>(831) 900-8254</span>
+    </a>
+    <a class="btn btn--primary btn--block" href="mailto:chaz@schuckelectric.com">Get a Free Estimate</a>
+  </div>
+</div>
+<div class="mobile-scrim" id="mobileScrim"></div>
+
+<!-- ===================== PAGE HERO =====================
+     PLACEHOLDER IMAGE — this is the home page's hero photo. Swap it for a
+     contact-specific shot so the two pages don't open on the same image. -->
+<section class="page-hero" data-spotlight data-spot-size="260px">
+  <div class="hero-bg"><img src="assets/img/hero.jpg" alt="" /></div>
+  <div class="hero-scrim"></div>
+  <div class="dot-grid" aria-hidden="true"></div>
+  <div class="dot-spotlight" aria-hidden="true"></div>
+  <div class="container">
+    <h1>Contact Us</h1>
+  </div>
+</section>
+
+<!-- ===================== CONTACT ===================== -->
+<section class="section" id="contact">
+  <div class="container">
+    <div class="section-head anim" data-anim="up">
+      <p class="eyebrow">Get in Touch</p>
+      <h2>Let's Talk About Your Project</h2>
+      <p class="lede">Have a project, a question, or something that needs a look?<br />Reach out and our team will get back to you fast.</p>
+    </div>
+
+    <div class="contact-layout">
+      <div class="contact-col">
+        <div class="contact-card anim" data-anim="up" data-delay="0">
+          <h3>Call or Text</h3>
+          <p>The fastest way to reach us. You'll talk to the electrician, not an answering service.</p>
+          <a class="btn btn--primary btn--block" href="tel:+18319008254">(831) 900-8254</a>
+        </div>
+
+        <div class="contact-card anim" data-anim="up" data-delay="90">
+          <h3>Chat With Us</h3>
+          <p>Prefer messaging? Open the chat panel and send us a note &mdash; we'll follow up by phone or text.</p>
+          <button class="btn btn--navy btn--block js-open-chat" type="button">Open Chat</button>
+        </div>
+
+        <div class="contact-card anim" data-anim="up" data-delay="180">
+          <h3>Email</h3>
+          <p>For project details, photos, or documents.</p>
+          <a class="btn btn--navy btn--block btn--as-typed" href="mailto:chaz@schuckelectric.com">chaz@schuckelectric.com</a>
+        </div>
+      </div>
+
+      <div class="contact-col">
+        <div class="contact-card anim" data-anim="up" data-delay="0">
+          <h3>Address</h3>
+          <p class="ph">4700 Highway 9, Apt 4, Felton, CA 95018</p>
+          <div class="map-frame">
+            <iframe
+              src="https://www.google.com/maps?q=Felton,CA&amp;output=embed"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              title="Schuck Electric service area map"></iframe>
+          </div>
+        </div>
+
+        <div class="contact-card anim" data-anim="up" data-delay="90">
+          <h3>Service Area</h3>
+          <p>Proudly serving Santa Cruz County and the South Bay, including:</p>
+          <div class="area-lines">
+            <p>Felton &middot; Santa Cruz &middot; Scotts Valley &middot; Ben Lomond &middot; Boulder Creek</p>
+            <p>Capitola &middot; Aptos &middot; Soquel &middot; Watsonville &middot; South Bay Area</p>
+          </div>
+        </div>
+
+        <div class="contact-card anim" data-anim="up" data-delay="180">
+          <h3>Business Hours</h3>
+          <table class="hours-table">
+            <tr><td>Monday &ndash; Friday</td><td>8:00 AM &ndash; 5:00 PM</td></tr>
+            <tr><td>Saturday</td><td>Closed</td></tr>
+            <tr><td>Sunday</td><td>Closed</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CTA ===================== -->
+<section class="section--cta on-dark" data-spotlight data-spot-size="320px">
+  <div class="process-glow" aria-hidden="true"></div>
+  <div class="dot-grid" aria-hidden="true"></div>
+  <div class="dot-spotlight" aria-hidden="true"></div>
+  <div class="container">
+    <div class="cta-box anim" data-anim="up">
+      <div class="cta-bg" aria-hidden="true"><img src="assets/img/cta.jpg" alt="" loading="lazy" /></div>
+      <div class="cta-content">
+        <h2>Wiring, Upgrades, Lighting, EV Chargers, and More</h2>
+        <p class="lede">Tell us about your project and get a straightforward answer. Free estimates on any job beyond a standard service call.</p>
+        <div class="cta-buttons">
+          <a class="btn btn--dark" href="tel:+18319008254">Call (831) 900-8254</a>
+          <a class="btn btn--primary" href="mailto:chaz@schuckelectric.com">Email</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="assets/logo/schuck-logo-white.png" alt="Schuck Electric" />
+        <p class="footer-license">Licensed &amp; Insured C-10 Electrical Contractor<br />CSLB #1106812</p>
+        <p class="footer-serving">Serving Santa Cruz County and the South Bay.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><span class="ph">4700 Highway 9, Apt 4, Felton, CA 95018</span></li>
+          <li><a href="mailto:chaz@schuckelectric.com" class="ph">chaz@schuckelectric.com</a></li>
+          <li><a href="tel:+18319008254" class="ph">(831) 900-8254</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Site</h4>
+        <ul>
+          <li><a href="./">Home</a></li>
+          <li><a href="pending.html">About</a></li>
+          <li><a href="services.html">Service</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; <span data-year>2026</span>. Schuck Electric. All Rights Reserved.</p>
+      <div class="footer-legal">
+        <a href="pending.html">Privacy Policy</a>
+        <a href="pending.html">Terms of Use</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ===================== CHAT ===================== -->
+<button class="chat-fab js-open-chat" type="button" aria-label="Open chat">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.03 2 11c0 2.42 1.09 4.62 2.89 6.24-.11.99-.46 2.6-1.4 3.94a.5.5 0 0 0 .53.77c2.06-.5 3.63-1.36 4.55-1.99A11.6 11.6 0 0 0 12 20c5.52 0 10-4.03 10-9s-4.48-9-10-9z"/></svg>
+</button>
+
+<div class="chat-scrim" id="chatScrim"></div>
+<aside class="chat-panel" id="chatPanel" role="dialog" aria-label="Contact Schuck Electric" aria-hidden="true">
+  <div class="chat-head">
+    <div>
+      <h3>Let's Talk About Your Project</h3>
+      <p>Call, text, or email &mdash; you'll hear back from the electrician, not an answering service.</p>
+    </div>
+    <button class="chat-close" id="chatClose" type="button" aria-label="Close">&times;</button>
+  </div>
+  <div class="chat-body">
+    <a class="chat-option" href="tel:+18319008254">
+      <span class="chat-option-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg></span>
+      <span><span class="chat-option-label">Call Now</span><span class="chat-option-sub ph">(831) 900-8254</span></span>
+    </a>
+    <a class="chat-option" href="mailto:chaz@schuckelectric.com">
+      <span class="chat-option-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg></span>
+      <span><span class="chat-option-label">Email Us</span><span class="chat-option-sub ph">chaz@schuckelectric.com</span></span>
+    </a>
+    <p class="chat-note">Prefer to text? Send a message to the number above and we'll reply as soon as we're off the ladder.</p>
+  </div>
+</aside>
+
+<script src="main.js"></script>
+</body>
+</html>

@@ -211,6 +211,21 @@ a:focus-visible, button:focus-visible {
   box-shadow: 0 0 0 4px rgba(0,174,239,0.16), 0 8px 30px rgba(0,174,239,0.4);
 }
 
+/* Solid navy. The counterpart to .btn--dark, which is transparent-with-white-
+   border and therefore invisible on a light background — this is the one to
+   reach for on a white card. Keeps the white border the solid buttons share. */
+.btn--navy {
+  background: var(--se-navy);
+  border-color: var(--se-white);
+  color: var(--se-white);
+  box-shadow: 0 6px 20px rgba(11,7,34,0.22);
+}
+.btn--navy:hover {
+  background: var(--se-blue);
+  border-color: var(--se-white);
+  box-shadow: 0 0 0 4px rgba(45,122,191,0.18), 0 8px 30px rgba(45,122,191,0.4);
+}
+
 .btn--outline-navy {
   border-color: var(--se-navy);
   color: var(--se-navy);
@@ -936,8 +951,18 @@ a:focus-visible, button:focus-visible {
   align-items: flex-start;
   justify-content: space-between;
 }
-.chat-head h3 { color: var(--se-white); margin-bottom: 6px; text-transform: none; letter-spacing: 0; }
-.chat-head p { color: var(--se-body-dark); font-size: 14px; margin: 0; }
+/* Uppercase and sized as a section headline, matching the comp — this is the
+   panel's title, not a card heading, and at 27px title case it read as a
+   caption sitting above the options rather than as the thing you just opened. */
+.chat-head h3 {
+  color: var(--se-white);
+  margin-bottom: 10px;
+  font-size: 30px;
+  line-height: 1.06;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+}
+.chat-head p { color: var(--se-body-dark); font-size: 15px; line-height: 1.5; margin: 0; }
 .chat-close {
   flex-shrink: 0;
   width: 34px; height: 34px;
@@ -1124,11 +1149,11 @@ html.js .anim.is-in { opacity: 1; transform: none; }
    <span> nested inside — and the phone number and several button labels are
    wrapped in spans. Without covering descendants the container gets Barlow
    while its visible text renders in Work Sans. */
-:is(.topbar, .site-header, .mobile-panel, .hero, .section, .site-footer, .chat-panel, .carousel)
+:is(.topbar, .site-header, .mobile-panel, .hero, .page-hero, .section, .site-footer, .chat-panel, .carousel)
 :is(h1, h2, h3, h4, .btn, .eyebrow, .card-tag, .card-link, .step-num, .about-sub,
     .nav-links a, .mobile-links a, .footer-col h4, .footer-license,
     .chat-option-label, .nav-phone, .nav-call),
-:is(.topbar, .site-header, .mobile-panel, .hero, .section, .site-footer, .chat-panel, .carousel)
+:is(.topbar, .site-header, .mobile-panel, .hero, .page-hero, .section, .site-footer, .chat-panel, .carousel)
 :is(h1, h2, h3, h4, .btn, .eyebrow, .card-tag, .card-link, .step-num, .about-sub,
     .nav-links a, .mobile-links a, .footer-col h4, .footer-license,
     .chat-option-label, .nav-phone, .nav-call) * {
@@ -1152,13 +1177,17 @@ html.js .anim.is-in { opacity: 1; transform: none; }
    values mirror the design exactly; if a weight changes above, change it
    here too or the override will quietly hold the old value.
    ========================================================================== */
-:is(.topbar, .site-header, .mobile-panel, .hero, .section, .site-footer, .chat-panel, .carousel) h1,
+:is(.topbar, .site-header, .mobile-panel, .hero, .page-hero, .section, .site-footer, .chat-panel, .carousel) h1,
 .hero h1 { font-weight: 800 !important; }
+/* Interior banner titles sit at 700 with the section headlines, so they have
+   to be pulled back out of the 800 above — which is !important and would
+   otherwise win. 800 belongs to the home hero alone. */
+.page-hero h1 { font-weight: 700 !important; }
 
-:is(.topbar, .site-header, .mobile-panel, .hero, .section, .site-footer, .chat-panel, .carousel)
+:is(.topbar, .site-header, .mobile-panel, .hero, .page-hero, .section, .site-footer, .chat-panel, .carousel)
 :is(h2, h3, h4, .about-sub, .footer-col h4, .chat-option-label) { font-weight: 700 !important; }
 
-:is(.topbar, .site-header, .mobile-panel, .hero, .section, .site-footer, .chat-panel, .carousel)
+:is(.topbar, .site-header, .mobile-panel, .hero, .page-hero, .section, .site-footer, .chat-panel, .carousel)
 :is(.btn, .mobile-links a, .eyebrow--rule) { font-weight: 700 !important; }
 
 /* The card enquiry link, and its descendants. The visible text lives in a
@@ -1172,9 +1201,9 @@ html.js .anim.is-in { opacity: 1; transform: none; }
    links — a simulated `body a { letter-spacing: 2px }` took it straight over. */
 :is(.section, .carousel) :is(.card-link.card-link, .card-link.card-link *) { letter-spacing: 0 !important; }
 
-:is(.topbar, .site-header, .mobile-panel, .hero, .section, .site-footer, .chat-panel, .carousel)
+:is(.topbar, .site-header, .mobile-panel, .hero, .page-hero, .section, .site-footer, .chat-panel, .carousel)
 :is(.nav-links a, .footer-serving, .card-tag) { font-weight: 600 !important; }
-:is(.topbar, .site-header, .mobile-panel, .hero, .section, .site-footer, .chat-panel, .carousel)
+:is(.topbar, .site-header, .mobile-panel, .hero, .page-hero, .section, .site-footer, .chat-panel, .carousel)
 .eyebrow { font-weight: 700 !important; }
 
 .topbar .container p { font-weight: 600 !important; }
@@ -1246,7 +1275,7 @@ html.js .anim.is-in { opacity: 1; transform: none; }
 /* 5. Button labels. Same doubled-class trick — a theme rule on `.btn` is
    (0,1,0) but one on `a`/`button` inside a scoped block can reach further,
    and greyed-out button text is very visible. */
-.btn.btn--primary, .btn.btn--bright, .btn.btn--ghost, .btn.btn--dark { color: var(--se-white) !important; }
+.btn.btn--primary, .btn.btn--bright, .btn.btn--ghost, .btn.btn--dark, .btn.btn--navy { color: var(--se-white) !important; }
 .btn.btn--outline-navy                                               { color: var(--se-navy) !important; }
 .btn.btn--outline-navy:hover                                         { color: var(--se-blue) !important; }
 
@@ -1345,14 +1374,14 @@ html.js .anim.is-in { opacity: 1; transform: none; }
    order to stack: grid, then spotlight, then the content element. */
 .hero > .dot-grid,
 .hero > .dot-spotlight     { z-index: 1; }   /* .hero-scrim 1, .hero .container 2 */
-.process > .dot-grid,
-.process > .dot-spotlight  { z-index: 0; }   /* .process-glow 0, .process .container 1 */
+:is(.process, .section--cta) > .dot-grid,
+:is(.process, .section--cta) > .dot-spotlight  { z-index: 0; }   /* .process-glow 0, .process .container 1 */
 
 /* The dots read over the blue glow, not over the flat #05050C around it, so
    the lattice is masked to roughly the glow's footprint — it fades out before
    it reaches the section edges. */
-.process > .dot-grid,
-.process > .dot-spotlight {
+:is(.process, .section--cta) > .dot-grid,
+:is(.process, .section--cta) > .dot-spotlight {
   -webkit-mask-image: radial-gradient(ellipse 62% 55% at 50% 34%, #000 0%, rgba(0,0,0,0.45) 55%, transparent 78%);
           mask-image: radial-gradient(ellipse 62% 55% at 50% 34%, #000 0%, rgba(0,0,0,0.45) 55%, transparent 78%);
 }
@@ -1360,7 +1389,7 @@ html.js .anim.is-in { opacity: 1; transform: none; }
 /* The spotlight needs its own mask to track the pointer, so its fade has to be
    composed rather than replaced: the tracking circle goes in mask-image and
    the glow footprint moves to a second mask layer. */
-.process > .dot-spotlight {
+:is(.process, .section--cta) > .dot-spotlight {
   --dot-color: rgba(255, 255, 255, 0.50);
   -webkit-mask-image:
     radial-gradient(circle var(--spot-size) at var(--mx) var(--my),
@@ -1392,7 +1421,7 @@ html.js .anim.is-in { opacity: 1; transform: none; }
 
   /* The hero and process lattices are never really on screen together, but the
      offset stops them beating in lockstep if a short viewport ever shows both. */
-  .process > .dot-grid { animation-delay: -2.4s; }
+  :is(.process, .section--cta) > .dot-grid { animation-delay: -2.4s; }
 }
 
 /* Opacity rather than --dot-color: a custom property can only be animated
@@ -1410,3 +1439,352 @@ html.js .anim.is-in { opacity: 1; transform: none; }
   .dot-spotlight { display: none; }
   .dot-grid { animation: none; }
 }
+
+/* ==========================================================================
+   PAGE HERO — interior pages
+   A short banner version of the home hero: same photo-under-scrim treatment
+   and the same dot lattice, but sized to a title rather than a full pitch.
+   ========================================================================== */
+.page-hero {
+  position: relative;
+  isolation: isolate;
+  /* Pulled up under the header exactly like .hero, so the translucent nav
+     floats over the photograph instead of sitting on a band above it. */
+  margin-top: calc(-1 * var(--se-header-h));
+  padding-top: var(--se-header-h);
+  min-height: 292px;
+  display: flex;
+  align-items: flex-end;
+  background: var(--se-navy);
+  color: var(--se-white);
+  overflow: hidden;
+}
+.page-hero .hero-bg { position: absolute; inset: 0; z-index: 0; }
+.page-hero .hero-bg img { width: 100%; height: 100%; object-fit: cover; }
+.page-hero .container { position: relative; z-index: 2; padding-bottom: 46px; }
+
+/* Same neutral black multiply as the home hero — a coloured scrim puts a cast
+   on the photograph, which is what made the first version read blue. */
+.page-hero .hero-scrim {
+  position: absolute; inset: 0; z-index: 1;
+  mix-blend-mode: multiply;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.58) 52%, rgba(0,0,0,0.32) 100%),
+    linear-gradient(180deg, rgba(0,0,0,0.66) 0%, rgba(0,0,0,0.18) 46%, rgba(0,0,0,0.5) 100%);
+}
+
+/* 72px at desktop — just under the home page's 76px h1, so an interior
+   banner reads as the same rank without outranking the landing headline.
+   700 rather than the h1 default of 800, matching the section headlines it
+   sits above; the extra weight is the home hero's alone. */
+.page-hero h1 {
+  font-size: clamp(38px, 5.63vw, 72px);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.2px;
+  margin: 0;
+}
+/* Glow band closing the banner. Two layers: a horizontal sweep that peaks at
+   Schuck blue mid-width and falls to navy at both edges, and a vertical pass
+   that darkens the top and lifts the bottom so the band reads as lit from
+   below rather than as a flat stripe. */
+.page-hero::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 10px;
+  z-index: 3;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 58%, rgba(255,255,255,0.14) 100%),
+    linear-gradient(90deg, #0B0722 0%, #16375C 24%, var(--se-blue) 50%, #16375C 76%, #0B0722 100%);
+}
+
+/* The lattice starts below the nav for the same reason it does on the home
+   hero: the banner's top --se-header-h sits behind a bar that is only 0.35
+   alpha at rest, and the dots read straight through it. */
+.page-hero .dot-grid,
+.page-hero .dot-spotlight { top: var(--se-header-h); }
+.page-hero > .dot-grid,
+.page-hero > .dot-spotlight { z-index: 1; }
+
+@media (max-width: 700px) {
+  .page-hero { min-height: 216px; }
+  .page-hero .container { padding-bottom: 34px; }
+}
+
+/* ==========================================================================
+   CONTACT PAGE
+   ========================================================================== */
+.contact-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 26px;
+  align-items: start;
+}
+.contact-col { display: grid; gap: 26px; align-content: start; }
+
+.contact-card {
+  background: var(--se-white);
+  border: 1px solid var(--se-gray-line);
+  border-radius: var(--se-radius);
+  padding: 26px 26px 28px;
+  /* Resting lift. Deliberately well under the 0 8px 18px / 0.14 the rest of
+     the site uses for hover and card elevation — these cards are static, so
+     they should read as sitting on the page, not hovering above it. */
+  box-shadow: 0 2px 10px rgba(11, 7, 34, 0.055);
+}
+.contact-card h3 {
+  font-size: 22px;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin: 0 0 12px;
+}
+.contact-card p { margin: 0 0 20px; font-size: 15.5px; line-height: 1.55; }
+.contact-card .btn { margin-top: 2px; }
+/* The button is the card's last element and carries its own height, so the
+   paragraph above it owns the spacing. Kills the double gap. */
+.contact-card > :last-child { margin-bottom: 0; }
+
+.map-frame {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border: 1px solid var(--se-gray-line);
+  overflow: hidden;
+  background: var(--se-gray);
+}
+.map-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+.area-lines { margin: 0; }
+.area-lines p {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.85;
+  color: #5A5A66;
+}
+
+.hours-table { width: 100%; border-collapse: collapse; }
+.hours-table td {
+  padding: 13px 0;
+  font-size: 15.5px;
+  color: var(--se-body);
+  border-bottom: 1px solid var(--se-gray-line);
+}
+.hours-table tr:last-child td { border-bottom: 0; padding-bottom: 0; }
+.hours-table tr:first-child td { padding-top: 0; }
+/* Right column is the time — Barlow so the figures line up as a column
+   rather than drifting on Work Sans' proportional digits. */
+.hours-table td + td {
+  text-align: right;
+  font-family: var(--se-font-display);
+  font-weight: 600;
+  font-size: 14.5px;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .contact-layout { grid-template-columns: 1fr; }
+}
+
+/* ==========================================================================
+   STANDALONE DARK CTA SECTION
+   The home page's CTA box lives at the foot of .process. Interior pages need
+   the same box on the same glow without the three steps above it, so the
+   backdrop is factored out here and the dot layers below are extended to
+   cover both hosts.
+   ========================================================================== */
+.section--cta {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 96px 0 104px;
+  background: #05050C;
+}
+.section--cta .cta-box { margin-top: 0; }
+
+/* Brighter lattice than the home page's process section. This band is the
+   last thing above the footer with nothing else in it but the CTA box, so the
+   texture is carrying the whole background — 0.12 disappeared into the glow.
+   The home page keeps the dimmer value, where three steps of copy sit on top
+   of the same lattice and it only needs to read as texture. */
+.section--cta > .dot-grid { --dot-color: rgba(255, 255, 255, 0.26); }
+.section--cta > .dot-spotlight { --dot-color: rgba(255, 255, 255, 0.62); }
+
+@media (max-width: 700px) {
+  .section--cta { padding: 64px 0 72px; }
+}
+
+/* Interior page titles and card headings, pinned like everything else — the
+   generic colour rules only reach .section and .carousel, and .page-hero is
+   neither. Without this the banner title inherits the theme's link/heading
+   colour instead of white. */
+.page-hero :is(h1, h2, h3, h4) { color: var(--se-white) !important; }
+.section:not(.on-dark) .contact-card :is(h3, h4) { color: var(--se-navy) !important; }
+
+/* An email address is not a label — uppercasing it makes it look like one and
+   costs the reader the shape they actually scan for. Opt out of .btn's
+   text-transform where the string is literal data. */
+.btn--as-typed { text-transform: none; letter-spacing: 0.2px; }
+
+/* ==========================================================================
+   SERVICES PAGE
+   ========================================================================== */
+
+/* The same .card component the home carousel uses, released from the
+   carousel's fixed track width so it can size to a grid cell instead. */
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+}
+.service-grid .card { flex: initial; width: auto; }
+
+/* Shorter media than the carousel's 16/9. Six of these stacked two rows deep
+   is a lot of page, and the photograph is supporting the copy here rather
+   than leading it as it does in the slider. */
+.service-grid .card-media { aspect-ratio: 2 / 1; }
+
+.services-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 46px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 1000px) {
+  .service-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .service-grid { grid-template-columns: 1fr; }
+  .services-actions { flex-direction: column; }
+  .services-actions .btn { width: 100%; }
+}
+
+/* ==========================================================================
+   FEATURE ROW — four icon + copy columns on the dark band
+   ========================================================================== */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 34px;
+  text-align: center;
+}
+.feature h4 {
+  font-size: 19px;
+  line-height: 1.15;
+  margin: 0 0 10px;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.feature p { font-size: 14px; line-height: 1.6; margin: 0; }
+
+/* The SVGs are inlined rather than loaded as <img> so `fill` is a CSS
+   decision — recolouring all four is one token — and so the glow below can
+   be a drop-shadow on real geometry instead of a box around a rectangle.
+   It also means these four never need uploading to the GHL Media Library.
+
+   Height is common and width is free: the four source files run from 0.61 to
+   1.05 in aspect, so pinning both would squash the bolt or crop the others. */
+.feature-icon {
+  display: block;
+  margin: 0 auto 20px;
+  animation: se-icon-glow 2.6s ease-in-out infinite;
+}
+.feature-icon svg {
+  display: block;
+  margin: 0 auto;      /* the SVG is a block, so text-align cannot centre it */
+  height: 56px;
+  width: auto;
+  fill: var(--se-blue);
+}
+/* Staggered so the four read as a wave rather than a single mechanical
+   blink. A quarter of the cycle apart. */
+.feature:nth-child(2) .feature-icon { animation-delay: 0.65s; }
+.feature:nth-child(3) .feature-icon { animation-delay: 1.3s; }
+.feature:nth-child(4) .feature-icon { animation-delay: 1.95s; }
+
+/* Built to read like the Get a Free Estimate hover state — the same cyan at
+   the same reach — but on a loop, with no pointer involved. Two shadows: a
+   tight core and a wide bloom, which is what stops it looking like a blur. */
+@keyframes se-icon-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 1px rgba(0, 174, 239, 0.25));
+  }
+  50% {
+    filter: drop-shadow(0 0 9px rgba(0, 174, 239, 0.9))
+            drop-shadow(0 0 22px rgba(0, 174, 239, 0.42));
+  }
+}
+
+.feature-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.16);
+  margin: 62px 0 54px;
+}
+
+@media (max-width: 900px) {
+  .feature-grid { grid-template-columns: repeat(2, 1fr); gap: 40px 28px; }
+}
+@media (max-width: 520px) {
+  .feature-grid { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .feature-icon { animation: none; filter: drop-shadow(0 0 6px rgba(0,174,239,0.5)); }
+}
+
+/* ==========================================================================
+   FAQ
+   Native <details>/<summary> — no JS, and "all closed on load" is simply the
+   absence of the open attribute, so it cannot drift out of sync with script.
+   ========================================================================== */
+.faq-list { border-top: 1px solid var(--se-gray-line); }
+.faq-item { border-bottom: 1px solid var(--se-gray-line); }
+
+.faq-item summary {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 13px 16px 13px 0;
+  cursor: pointer;
+  font-family: var(--se-font-display);
+  font-weight: 700;
+  font-size: 15.5px;
+  line-height: 1.35;
+  color: var(--se-navy);
+  transition: color 0.22s var(--se-ease), background 0.22s var(--se-ease);
+  /* Both are needed — Safari uses the pseudo-element, everyone else `list-style`. */
+  list-style: none;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary:hover { color: var(--se-blue); }
+
+/* The marker is a pseudo-element rather than markup so the toggle state has
+   exactly one source of truth: the open attribute the browser manages. */
+.faq-item summary::after {
+  content: "+";
+  flex-shrink: 0;
+  font-size: 20px;
+  line-height: 1;
+  color: var(--se-blue);
+  transition: transform 0.25s var(--se-ease);
+}
+/* The tint goes on the <details>, not on the summary and answer separately —
+   put it on the answer and it stops at the text's measure, leaving a ragged
+   band halfway across the row. */
+.faq-item[open] { background: var(--se-gray); }
+.faq-item[open] summary { padding-left: 16px; color: var(--se-blue); }
+.faq-item[open] summary::after { content: "\00d7"; }
+
+.faq-answer {
+  padding: 2px 44px 16px 16px;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #5A5A66;
+}
+
+.faq-intro { margin-bottom: 26px; }
