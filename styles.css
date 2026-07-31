@@ -1086,8 +1086,27 @@ html.js .anim.is-in { opacity: 1; transform: none; }
   :root { --se-header-h: 68px; }
   .section { padding: 64px 0; }
   .process { padding: 72px 0 76px; }
-  .hero { min-height: 0; }
-  .hero .container { padding-top: calc(var(--se-header-h) + 56px); padding-bottom: 64px; }
+  /* Full-height banner on phones. svh, not vh: on iOS Safari `100vh` is the
+     height with the browser chrome *hidden*, so a vh hero is taller than the
+     screen on load and the button gets pushed under the address bar. svh is
+     the smallest state, which is the one that has to work. vh first as a
+     fallback for anything that doesn't know svh. */
+  .hero {
+    min-height: 100vh;
+    min-height: 100svh;
+    /* Content to the top, photograph filling everything below it, rather than
+       one centred block floating in the middle of a tall frame. */
+    align-items: flex-start;
+  }
+  .hero .container { padding-top: calc(var(--se-header-h) + 34px); padding-bottom: 56px; }
+
+  /* The tighter crop is a consequence of the full-height box, not an extra
+     zoom. Measured at 375x812: cover scales the 1981x1321 photo to 1413x942,
+     so 1038px of width is cropped and the vertical overflow is zero — the
+     whole frame top to bottom, closed right in on the entrance.
+     Vertical overflow being zero also means object-position's Y is inert
+     here; only scale or translate can reframe vertically, and neither is
+     wanted — an added scale pushed the sky out and cut into the roofline. */
   .hero-cta { flex-direction: column; align-items: stretch; }
   .hero-cta .btn { width: 100%; }
   .carousel { --se-card-w: 82vw; --se-card-gap: 18px; }
