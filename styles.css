@@ -1144,12 +1144,13 @@ html.js .anim.is-in { opacity: 1; transform: none; }
      the subject is; with the image cut to purpose that assumption stops being
      safe, and an even veil keeps the photograph reading as one picture rather
      than one that fades out at the top. Still pure black on multiply, so it
-     darkens without tinting. */
-     25% flat. This is only safe because the delivered image keeps the copy
-     over sky — see the safe-area note on .hero-bg. If the house ever creeps
-     back up behind the lede, no flat value this light will hold it; the fix
-     is the crop, not the scrim. */
-  .hero .hero-scrim { background: rgba(0, 0, 0, 0.25); }
+     darkens without tinting.
+
+     19% flat — a quarter off the 25% it started at. This is only safe because
+     the delivered image keeps the copy over sky; see the safe-area note on
+     .hero-bg. If the house creeps back up behind the lede, no flat value this
+     light will hold it — the fix is the crop, not the scrim. */
+  .hero .hero-scrim { background: rgba(0, 0, 0, 0.19); }
 
   /* Tighter leading on the banner copy. At 1.62 the lede runs to five airy
      lines here and pushes the CTA down the screen; the headline already sets
