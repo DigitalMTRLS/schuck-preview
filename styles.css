@@ -1469,8 +1469,8 @@ html.js .anim.is-in { opacity: 1; transform: none; }
   position: absolute; inset: 0; z-index: 1;
   mix-blend-mode: multiply;
   background:
-    linear-gradient(90deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.58) 52%, rgba(0,0,0,0.32) 100%),
-    linear-gradient(180deg, rgba(0,0,0,0.66) 0%, rgba(0,0,0,0.18) 46%, rgba(0,0,0,0.5) 100%);
+    linear-gradient(90deg, rgba(0,0,0,0.74) 0%, rgba(0,0,0,0.42) 52%, rgba(0,0,0,0.16) 100%),
+    linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.1) 46%, rgba(0,0,0,0.38) 100%);
 }
 
 /* 72px at desktop — just under the home page's 76px h1, so an interior
@@ -1510,6 +1510,26 @@ html.js .anim.is-in { opacity: 1; transform: none; }
 @media (max-width: 700px) {
   .page-hero { min-height: 216px; }
   .page-hero .container { padding-bottom: 34px; }
+
+  /* A banner marked --bare carries no scrim at all, because its photograph is
+     already dark where the title sits — at desktop widths. On a phone the
+     crop is not the same picture: the container is wide and short, cover
+     scales to the width, and the whole frame comes into view, which on the
+     contact shot puts the lit doorway directly behind the text. Measured at
+     375px, 10% of the backdrop behind the glyphs fell below 3:1 and the worst
+     point was 1.01:1 — the letters vanish into the light.
+
+     So this is a floor for phones only, not a reinstatement of the overlay
+     the desktop deliberately does without. Delete this block and the bare
+     banner is bare everywhere again. */
+  .page-hero--bare::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    mix-blend-mode: multiply;
+    background: linear-gradient(90deg, rgba(0,0,0,0.66) 0%, rgba(0,0,0,0.36) 58%, rgba(0,0,0,0.1) 100%);
+  }
 
   /* Lighter scrim on phones. The desktop values are tuned for a wide crop
      where the title sits over the darkest third; on a narrow viewport the
