@@ -1510,6 +1510,17 @@ html.js .anim.is-in { opacity: 1; transform: none; }
 @media (max-width: 700px) {
   .page-hero { min-height: 216px; }
   .page-hero .container { padding-bottom: 34px; }
+
+  /* Lighter scrim on phones. The desktop values are tuned for a wide crop
+     where the title sits over the darkest third; on a narrow viewport the
+     photograph is cropped to its centre and the same alphas bury it. Roughly
+     a third off each stop — the title is still white-on-dark at the left
+     edge, which is the only place contrast has to hold. */
+  .page-hero .hero-scrim {
+    background:
+      linear-gradient(90deg, rgba(0,0,0,0.58) 0%, rgba(0,0,0,0.4) 52%, rgba(0,0,0,0.2) 100%),
+      linear-gradient(180deg, rgba(0,0,0,0.46) 0%, rgba(0,0,0,0.1) 46%, rgba(0,0,0,0.32) 100%);
+  }
 }
 
 /* ==========================================================================
@@ -1687,32 +1698,36 @@ html.js .anim.is-in { opacity: 1; transform: none; }
 
    Height is common and width is free: the four source files run from 0.61 to
    1.05 in aspect, so pinning both would squash the bolt or crop the others. */
-.feature-icon {
-  display: block;
-  margin: 0 auto 20px;
-  animation: se-icon-glow 2.6s ease-in-out infinite;
-}
+.feature-icon { display: block; margin: 0 auto 20px; }
+
+/* The animation lives on the <svg>, not the wrapper, because it drives `fill`
+   as well as the glow — and the explicit fill here would block inheritance
+   from a parent anyway. */
 .feature-icon svg {
   display: block;
   margin: 0 auto;      /* the SVG is a block, so text-align cannot centre it */
   height: 56px;
   width: auto;
   fill: var(--se-blue);
+  animation: se-icon-glow 2.6s ease-in-out infinite;
 }
 /* Staggered so the four read as a wave rather than a single mechanical
    blink. A quarter of the cycle apart. */
-.feature:nth-child(2) .feature-icon { animation-delay: 0.65s; }
-.feature:nth-child(3) .feature-icon { animation-delay: 1.3s; }
-.feature:nth-child(4) .feature-icon { animation-delay: 1.95s; }
+.feature:nth-child(2) .feature-icon svg { animation-delay: 0.65s; }
+.feature:nth-child(3) .feature-icon svg { animation-delay: 1.3s; }
+.feature:nth-child(4) .feature-icon svg { animation-delay: 1.95s; }
 
-/* Built to read like the Get a Free Estimate hover state — the same cyan at
-   the same reach — but on a loop, with no pointer involved. Two shadows: a
-   tight core and a wide bloom, which is what stops it looking like a blur. */
+/* The artwork travels the same route a CTA button takes on hover — Schuck
+   blue at rest, the brighter blue at the peak — with the glow riding along so
+   the colour shift and the bloom land together. Two shadows: a tight core and
+   a wide bloom, which is what keeps it a glow rather than a blur. */
 @keyframes se-icon-glow {
   0%, 100% {
+    fill: var(--se-blue);
     filter: drop-shadow(0 0 1px rgba(0, 174, 239, 0.25));
   }
   50% {
+    fill: var(--se-blue-bright);
     filter: drop-shadow(0 0 9px rgba(0, 174, 239, 0.9))
             drop-shadow(0 0 22px rgba(0, 174, 239, 0.42));
   }
@@ -1732,7 +1747,13 @@ html.js .anim.is-in { opacity: 1; transform: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .feature-icon { animation: none; filter: drop-shadow(0 0 6px rgba(0,174,239,0.5)); }
+  /* Targets the svg, matching where the animation now lives. Holds the lit
+     end of the cycle so the icons still read as the brand accent. */
+  .feature-icon svg {
+    animation: none;
+    fill: var(--se-blue-bright);
+    filter: drop-shadow(0 0 6px rgba(0, 174, 239, 0.5));
+  }
 }
 
 /* ==========================================================================
