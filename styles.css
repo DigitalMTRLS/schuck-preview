@@ -598,6 +598,13 @@ a:focus-visible, button:focus-visible {
      arrows are hidden below 700px, so on a phone this was the only way to
      move the carousel and it did nothing. */
   touch-action: pan-y;
+  /* iOS only. A drag that starts on a photograph is otherwise taken as the
+     native image drag / long-press callout, and the swipe never reaches the
+     handlers. Android has no such behaviour, which is why the carousel worked
+     there and not on iPhone. */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+          user-select: none;
 }
 .carousel-track.is-dragging { transition: none; cursor: grabbing; }
 
@@ -642,6 +649,10 @@ a:focus-visible, button:focus-visible {
 }
 .card-media { aspect-ratio: 16/9; overflow: hidden; background: #DDD; }
 .card-media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--se-ease); }
+/* The photograph is decorative and sits under a swipe target. Taking it out
+   of hit-testing stops iOS starting an image drag on it; the card's link is a
+   sibling, so nothing clickable is lost. */
+.card-media img { -webkit-user-drag: none; pointer-events: none; }
 .card:hover .card-media img { transform: scale(1.06); }
 /* Column flex so .card-link can be pushed to the bottom with margin-top:auto.
    The six cards carry copy of noticeably different lengths, and without that

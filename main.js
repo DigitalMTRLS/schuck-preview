@@ -276,6 +276,13 @@
       }
       if (axis !== "x") return;
 
+      // Non-passive so this can run. touch-action alone is not enough on iOS
+      // Safari: once it decides a gesture belongs to it, a passive listener
+      // has no way to object and the sequence dies in touchcancel. Chrome on
+      // Android honoured touch-action and worked, which is exactly why this
+      // only ever failed on iPhone.
+      if (e.cancelable) e.preventDefault();
+
       moved = dx;
       track.style.transform = "translate3d(" + (startOffset + moved) + "px,0,0)";
     }
@@ -306,7 +313,10 @@
     window.addEventListener("mousemove", onMove);
     window.addEventListener("mouseup", onUp);
     track.addEventListener("touchstart", onDown, { passive: true });
-    track.addEventListener("touchmove", onMove, { passive: true });
+    // passive:false — see the preventDefault in onMove. The axis check runs
+    // first, so a vertical gesture is released untouched and the page still
+    // scrolls normally; only a committed horizontal drag is claimed.
+    track.addEventListener("touchmove", onMove, { passive: false });
     track.addEventListener("touchend", onUp);
     track.addEventListener("touchcancel", cancelDrag);
 
