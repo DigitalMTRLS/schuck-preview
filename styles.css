@@ -581,14 +581,48 @@ a:focus-visible, button:focus-visible {
 .carousel-viewport {
   overflow: hidden;
   padding: 26px 0 34px;
-  /* Fade the peeking cards on both edges */
-  -webkit-mask-image: linear-gradient(90deg, rgba(0,0,0,0.05) 0, #000 16%, #000 84%, rgba(0,0,0,0.05) 100%);
-          mask-image: linear-gradient(90deg, rgba(0,0,0,0.05) 0, #000 16%, #000 84%, rgba(0,0,0,0.05) 100%);
+  /* The drag listeners live here, so the gesture declaration has to as well —
+     it is the element the finger actually lands on. */
+  touch-action: pan-y;
+}
+
+/* Edge fade for the peeking cards.
+   This was a -webkit-mask-image on the viewport, which looked identical and
+   broke touch on iPad: WebKit puts a masked element on its own compositing
+   layer and hit-testing through it is unreliable, so the first swipe went
+   nowhere and only worked after a tap had forced the region to update. The
+   mask was disabled below 700px, which is why phones behaved differently from
+   tablets and why the arrows — outside the masked box — always worked.
+
+   Two overlays instead. Same look, but pointer-events:none keeps them off the
+   hit-testing path entirely, and nothing needs its own layer. */
+.carousel::before,
+.carousel::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 15%;
+  z-index: 3;
+  pointer-events: none;
+}
+/* Explicit rgba rather than `transparent` — Safari interpolates the keyword
+   through transparent *black*, which greys the middle of the ramp. */
+.carousel::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--se-gray) 0%, rgba(242, 243, 245, 0) 100%);
+}
+.carousel::after {
+  right: 0;
+  background: linear-gradient(270deg, var(--se-gray) 0%, rgba(242, 243, 245, 0) 100%);
 }
 .carousel-track {
   display: flex;
   gap: var(--se-card-gap);
-  will-change: transform;
+  /* No will-change: transform. It buys nothing measurable here — the track is
+     already promoted while a transform transition runs — and it is the other
+     way this element ends up on a compositing layer of its own, which is what
+     made the touch region unreliable on iPad. */
   transition: transform 0.62s var(--se-ease);
   cursor: grab;
   /* Hands horizontal gestures to the drag handlers and keeps vertical ones
@@ -611,6 +645,7 @@ a:focus-visible, button:focus-visible {
 .carousel-arrow {
   position: absolute;
   top: 50%;
+  z-index: 4;            /* above the edge fades, which sit at 3 */
   transform: translateY(-50%);
   z-index: 4;
   width: 48px; height: 48px;
@@ -1180,7 +1215,10 @@ html.js .anim.is-in { opacity: 1; transform: none; }
   .hero-cta { flex-direction: column; align-items: stretch; }
   .hero-cta .btn { width: 100%; }
   .carousel { --se-card-w: 82vw; --se-card-gap: 18px; }
-  .carousel-viewport { -webkit-mask-image: none; mask-image: none; padding: 20px 0 26px; }
+  .carousel-viewport { padding: 20px 0 26px; }
+  /* No edge fade on phones — a single card fills the viewport, so there is
+     nothing peeking to fade and the overlay would just dim the card edges. */
+  .carousel::before, .carousel::after { display: none; }
   .carousel-arrow { display: none; }
   .cta-box { padding: 38px 22px 34px; border-width: 3px; }
   .cta-buttons { flex-direction: column; }

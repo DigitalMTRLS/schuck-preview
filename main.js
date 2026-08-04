@@ -309,19 +309,25 @@
       paint(true);
     }
 
-    track.addEventListener("mousedown", function (e) { e.preventDefault(); onDown(e); });
+    // Bound to the viewport, not the track. The track is only as wide as its
+    // cards: a finger landing in the gap between two of them, in the viewport
+    // padding, or on the strip below the cards hit .carousel-viewport and
+    // started nothing. That is the intermittency — whether a swipe registered
+    // depended on whether it began on a card. The viewport spans the whole
+    // visible band, so every touch in it now starts a drag.
+    viewport.addEventListener("mousedown", function (e) { e.preventDefault(); onDown(e); });
     window.addEventListener("mousemove", onMove);
     window.addEventListener("mouseup", onUp);
-    track.addEventListener("touchstart", onDown, { passive: true });
+    viewport.addEventListener("touchstart", onDown, { passive: true });
     // passive:false — see the preventDefault in onMove. The axis check runs
     // first, so a vertical gesture is released untouched and the page still
     // scrolls normally; only a committed horizontal drag is claimed.
-    track.addEventListener("touchmove", onMove, { passive: false });
-    track.addEventListener("touchend", onUp);
-    track.addEventListener("touchcancel", cancelDrag);
+    viewport.addEventListener("touchmove", onMove, { passive: false });
+    viewport.addEventListener("touchend", onUp);
+    viewport.addEventListener("touchcancel", cancelDrag);
 
     // A drag must not fire the click on whatever card ends up under the cursor
-    track.addEventListener("click", function (e) {
+    viewport.addEventListener("click", function (e) {
       if (Math.abs(moved) > 6) { e.preventDefault(); e.stopPropagation(); }
     }, true);
 
