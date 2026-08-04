@@ -591,6 +591,13 @@ a:focus-visible, button:focus-visible {
   will-change: transform;
   transition: transform 0.62s var(--se-ease);
   cursor: grab;
+  /* Hands horizontal gestures to the drag handlers and keeps vertical ones
+     for the page. Without this iOS Safari claims the horizontal swipe itself
+     — for page scroll or the edge back-gesture — and since touchmove is
+     registered passive, the JS cannot take it back with preventDefault. The
+     arrows are hidden below 700px, so on a phone this was the only way to
+     move the carousel and it did nothing. */
+  touch-action: pan-y;
 }
 .carousel-track.is-dragging { transition: none; cursor: grabbing; }
 
@@ -1146,11 +1153,14 @@ html.js .anim.is-in { opacity: 1; transform: none; }
      than one that fades out at the top. Still pure black on multiply, so it
      darkens without tinting.
 
-     19% flat — a quarter off the 25% it started at. This is only safe because
-     the delivered image keeps the copy over sky; see the safe-area note on
-     .hero-bg. If the house creeps back up behind the lede, no flat value this
-     light will hold it — the fix is the crop, not the scrim. */
-  .hero .hero-scrim { background: rgba(0, 0, 0, 0.19); }
+     65% flat. 19% was measured but never seen: a stray comment terminator
+     meant the whole mobile block was being discarded, so what was on screen
+     was still the desktop gradient, which runs 0.86 black at the left edge.
+     Against that, 19% read as no overlay at all. 65% sits just under the old
+     left-edge weight of 0.86 but holds it evenly across the frame instead of
+     ramping, and clears the lede where it crosses the lit roofline. Pure black on multiply,
+     so it darkens without tinting. */
+  .hero .hero-scrim { background: rgba(0, 0, 0, 0.65); }
 
   /* Tighter leading on the banner copy. At 1.62 the lede runs to five airy
      lines here and pushes the CTA down the screen; the headline already sets
@@ -1217,14 +1227,16 @@ html.js .anim.is-in { opacity: 1; transform: none; }
    <span> nested inside — and the phone number and several button labels are
    wrapped in spans. Without covering descendants the container gets Barlow
    while its visible text renders in Work Sans. */
-:is(.topbar, .site-header, .mobile-panel, .hero, .page-hero, .section, .site-footer, .chat-panel, .carousel)
+:is(.topbar, .site-header, .mobile-panel, .hero, .page-hero, .section, .split, .site-footer, .chat-panel, .carousel)
 :is(h1, h2, h3, h4, .btn, .eyebrow, .card-tag, .card-link, .step-num, .about-sub,
     .nav-links a, .mobile-links a, .footer-col h4, .footer-license,
-    .chat-option-label, .nav-phone, .nav-call),
-:is(.topbar, .site-header, .mobile-panel, .hero, .page-hero, .section, .site-footer, .chat-panel, .carousel)
+    .chat-option-label, .nav-phone, .nav-call, .stat-num, .stat-label,
+    .check-list strong),
+:is(.topbar, .site-header, .mobile-panel, .hero, .page-hero, .section, .split, .site-footer, .chat-panel, .carousel)
 :is(h1, h2, h3, h4, .btn, .eyebrow, .card-tag, .card-link, .step-num, .about-sub,
     .nav-links a, .mobile-links a, .footer-col h4, .footer-license,
-    .chat-option-label, .nav-phone, .nav-call) * {
+    .chat-option-label, .nav-phone, .nav-call, .stat-num, .stat-label,
+    .check-list strong) * {
   font-family: "Barlow Condensed", "Arial Narrow", sans-serif !important;
 }
 
@@ -1245,18 +1257,20 @@ html.js .anim.is-in { opacity: 1; transform: none; }
    values mirror the design exactly; if a weight changes above, change it
    here too or the override will quietly hold the old value.
    ========================================================================== */
-:is(.topbar, .site-header, .mobile-panel, .hero, .page-hero, .section, .site-footer, .chat-panel, .carousel) h1,
+:is(.topbar, .site-header, .mobile-panel, .hero, .page-hero, .section, .split, .site-footer, .chat-panel, .carousel) h1,
 .hero h1 { font-weight: 800 !important; }
 /* Interior banner titles sit at 700 with the section headlines, so they have
    to be pulled back out of the 800 above — which is !important and would
    otherwise win. 800 belongs to the home hero alone. */
 .page-hero h1 { font-weight: 700 !important; }
 
-:is(.topbar, .site-header, .mobile-panel, .hero, .page-hero, .section, .site-footer, .chat-panel, .carousel)
+:is(.topbar, .site-header, .mobile-panel, .hero, .page-hero, .section, .split, .site-footer, .chat-panel, .carousel)
 :is(h2, h3, h4, .about-sub, .footer-col h4, .chat-option-label) { font-weight: 700 !important; }
 
-:is(.topbar, .site-header, .mobile-panel, .hero, .page-hero, .section, .site-footer, .chat-panel, .carousel)
+:is(.topbar, .site-header, .mobile-panel, .hero, .page-hero, .section, .split, .site-footer, .chat-panel, .carousel)
 :is(.btn, .mobile-links a, .eyebrow--rule) { font-weight: 700 !important; }
+:is(.section, .split) :is(.stat-label, .check-list strong) { font-weight: 700 !important; }
+.stat-num.stat-num { font-weight: 800 !important; }
 
 /* The card enquiry link, and its descendants. The visible text lives in a
    child span, so a theme rule like `body a span { font-weight: 400 }` leaves
@@ -1269,9 +1283,9 @@ html.js .anim.is-in { opacity: 1; transform: none; }
    links — a simulated `body a { letter-spacing: 2px }` took it straight over. */
 :is(.section, .carousel) :is(.card-link.card-link, .card-link.card-link *) { letter-spacing: 0 !important; }
 
-:is(.topbar, .site-header, .mobile-panel, .hero, .page-hero, .section, .site-footer, .chat-panel, .carousel)
+:is(.topbar, .site-header, .mobile-panel, .hero, .page-hero, .section, .split, .site-footer, .chat-panel, .carousel)
 :is(.nav-links a, .footer-serving, .card-tag) { font-weight: 600 !important; }
-:is(.topbar, .site-header, .mobile-panel, .hero, .page-hero, .section, .site-footer, .chat-panel, .carousel)
+:is(.topbar, .site-header, .mobile-panel, .hero, .page-hero, .section, .split, .site-footer, .chat-panel, .carousel)
 .eyebrow { font-weight: 700 !important; }
 
 .topbar .container p { font-weight: 600 !important; }
@@ -1298,8 +1312,8 @@ html.js .anim.is-in { opacity: 1; transform: none; }
    ========================================================================== */
 
 /* 1. Generic — headings and copy on light sections */
-:is(.section:not(.on-dark), .carousel) :is(h1, h2, h3, h4) { color: var(--se-navy) !important; }
-:is(.section:not(.on-dark)) :is(p, li)                     { color: var(--se-body) !important; }
+:is(.section:not(.on-dark), .carousel, .split) :is(h1, h2, h3, h4) { color: var(--se-navy) !important; }
+:is(.section:not(.on-dark), .split) :is(p, li)                     { color: var(--se-body) !important; }
 .card-body p:not(.card-tag)                                { color: #5A5A66 !important; }
 .section-head .lede                                        { color: #5A5A66 !important; }
 
@@ -1325,7 +1339,7 @@ html.js .anim.is-in { opacity: 1; transform: none; }
    matter where it appears in the file — reordering alone did not fix this.
    Repeating the class (.card-tag.card-tag) takes it to (0,3,0), which beats
    (0,2,1) outright. Ugly, but unambiguous and immune to reordering. */
-:is(.hero, .section, .site-footer, .carousel) .eyebrow.eyebrow   { color: var(--se-blue) !important; }
+:is(.hero, .section, .site-footer, .carousel, .split) .eyebrow.eyebrow   { color: var(--se-blue) !important; }
 :is(.hero, .section, .site-footer, .carousel) .card-tag.card-tag { color: var(--se-blue) !important; }
 :is(.section, .site-footer) .about-sub.about-sub                 { color: var(--se-blue) !important; }
 /* The spans are pinned too, not left to inherit: a theme rule that matches
@@ -1333,6 +1347,11 @@ html.js .anim.is-in { opacity: 1; transform: none; }
 :is(.section, .carousel) :is(.card-link.card-link, .card-link.card-link *) { color: var(--se-navy) !important; }
 :is(.section, .carousel) :is(.card-link.card-link:hover, .card-link.card-link:hover *) { color: var(--se-blue) !important; }
 .step-num.step-num                                               { color: var(--se-blue) !important; }
+.stat-tile :is(.stat-num, .stat-label)                           { color: var(--se-white) !important; }
+/* The bullet lead-in is navy against the body grey that follows it, doubled
+   so a theme rule reaching `.split *` cannot flatten the two together. */
+.check-list strong.check-list strong,
+.split .check-list strong                                        { color: var(--se-navy) !important; }
 
 .on-dark .eyebrow.eyebrow,
 .on-dark .card-tag.card-tag,
@@ -1897,3 +1916,121 @@ html.js .anim.is-in { opacity: 1; transform: none; }
 }
 
 .faq-intro { margin-bottom: 26px; }
+
+/* ==========================================================================
+   ABOUT PAGE
+   ========================================================================== */
+.mission-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: start;
+}
+.mission-copy > p { margin: 0 0 20px; }
+.mission-copy > p:last-child { margin-bottom: 0; }
+.mission-media img { display: block; width: 100%; height: auto; }
+
+/* Three figures between the two blocks of copy. Numbers in Barlow at display
+   weight; the label under each is the same family a step down, so the tile
+   reads as one unit rather than a number with a caption. */
+.stat-tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 32px 0 30px;
+}
+.stat-tile { padding: 24px 14px 20px; text-align: center; }
+.stat-tile--bright { background: var(--se-blue-bright); }
+.stat-tile--navy   { background: var(--se-navy); }
+.stat-tile--blue   { background: var(--se-blue); }
+
+.stat-num {
+  display: block;
+  font-family: var(--se-font-display);
+  font-weight: 800;
+  font-size: clamp(34px, 3.2vw, 44px);
+  line-height: 1;
+  letter-spacing: -0.5px;
+  color: var(--se-white);
+}
+/* The % rides at cap height rather than on the baseline — `super` alone drops
+   it too low against a figure this heavy. */
+.stat-num sup { font-size: 0.46em; vertical-align: 0.62em; margin-left: 1px; }
+.stat-label {
+  display: block;
+  margin-top: 9px;
+  font-family: var(--se-font-display);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.2;
+  letter-spacing: 0.2px;
+  color: var(--se-white);
+}
+
+@media (max-width: 900px) {
+  .mission-grid { grid-template-columns: 1fr; gap: 38px; }
+  /* Photo above the second block of copy rather than stranded at the foot. */
+  .mission-media { order: -1; }
+}
+@media (max-width: 480px) {
+  .stat-tiles { grid-template-columns: 1fr; gap: 12px; }
+  .stat-tile { padding: 20px 14px 18px; }
+}
+
+/* ==========================================================================
+   SPLIT SECTION — full-bleed image one side, copy the other
+   ========================================================================== */
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
+  background: var(--se-gray);
+}
+/* The media cell runs to the viewport edge, so it sits outside .container by
+   design — the section is deliberately not wrapped in one. */
+.split-media { position: relative; min-height: 460px; }
+.split-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+.split-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 78px 28px 78px 60px;
+}
+/* Holds the measure near the rest of the site's body column instead of
+   letting it run the full half-width on a wide display. */
+.split-body-inner { max-width: 620px; }
+
+.check-list {
+  list-style: none;
+  margin: 26px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 15px;
+}
+.check-list li {
+  position: relative;
+  padding-left: 27px;
+  font-size: 15.5px;
+  line-height: 1.6;
+}
+.check-list li::before {
+  content: "\2713";
+  position: absolute;
+  left: 0;
+  top: 1px;
+  color: var(--se-blue);
+  font-weight: 700;
+}
+.check-list strong {
+  font-family: var(--se-font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+@media (max-width: 860px) {
+  .split { grid-template-columns: 1fr; }
+  .split-media { min-height: 300px; }
+  .split-body { padding: 56px 28px 62px; }
+}

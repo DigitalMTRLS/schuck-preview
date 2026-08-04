@@ -247,26 +247,59 @@
     if (next) next.addEventListener("click", function () { goTo(index + 1); });
 
     // Drag / swipe
-    var startX = 0, startOffset = 0, dragging = false, moved = 0;
+    var startX = 0, startY = 0, startOffset = 0;
+    var dragging = false, moved = 0, axis = "";
 
     function onDown(e) {
       dragging = true;
       moved = 0;
+      axis = e.touches ? "" : "x";   // a mouse press is horizontal by definition
       startX = (e.touches ? e.touches[0].clientX : e.clientX);
+      startY = (e.touches ? e.touches[0].clientY : e.clientY);
       startOffset = offsetFor(index);
       track.classList.add("is-dragging");
     }
+
     function onMove(e) {
       if (!dragging) return;
-      moved = (e.touches ? e.touches[0].clientX : e.clientX) - startX;
+      var x = (e.touches ? e.touches[0].clientX : e.clientX);
+      var y = (e.touches ? e.touches[0].clientY : e.clientY);
+      var dx = x - startX, dy = y - startY;
+
+      // Decide once, a few pixels in, whether this gesture is ours. A finger
+      // is never perfectly horizontal, and without this a mostly-vertical
+      // scroll would drag the track sideways the whole way down the page.
+      if (!axis) {
+        if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
+        axis = Math.abs(dx) > Math.abs(dy) ? "x" : "y";
+        if (axis === "y") { cancelDrag(); return; }
+      }
+      if (axis !== "x") return;
+
+      moved = dx;
       track.style.transform = "translate3d(" + (startOffset + moved) + "px,0,0)";
     }
+
     function onUp() {
       if (!dragging) return;
       dragging = false;
+      axis = "";
       track.classList.remove("is-dragging");
       if (Math.abs(moved) > step * 0.18) goTo(index + (moved < 0 ? 1 : -1));
       else paint(true);
+    }
+
+    // iOS fires touchcancel whenever the system takes the gesture over — an
+    // edge swipe, a call banner, the page starting to scroll. Without this the
+    // drag never ends: `dragging` stays true and the track is left stranded
+    // wherever the finger stopped, which looks exactly like a broken carousel.
+    function cancelDrag() {
+      if (!dragging) return;
+      dragging = false;
+      moved = 0;
+      axis = "";
+      track.classList.remove("is-dragging");
+      paint(true);
     }
 
     track.addEventListener("mousedown", function (e) { e.preventDefault(); onDown(e); });
@@ -275,6 +308,7 @@
     track.addEventListener("touchstart", onDown, { passive: true });
     track.addEventListener("touchmove", onMove, { passive: true });
     track.addEventListener("touchend", onUp);
+    track.addEventListener("touchcancel", cancelDrag);
 
     // A drag must not fire the click on whatever card ends up under the cursor
     track.addEventListener("click", function (e) {

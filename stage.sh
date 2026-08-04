@@ -43,8 +43,8 @@ rm -f "$here/HANDOFF.md"
 # the holding page. When a new page ships, move it out of the PENDING list — if
 # you forget, the link silently goes to "in production" instead of the page you
 # just built, which looks like nothing happened.
-BUILT_PAGES='services|contact'
-PENDING_PAGES='about|privacy-policy|terms-of-use'
+BUILT_PAGES='about|services|contact'
+PENDING_PAGES='privacy-policy|terms-of-use'
 
 for f in "$here"/*.html; do
   case "$(basename "$f")" in
